@@ -1,0 +1,12 @@
+D:\code\misc\GateKeeper\Test\bin\Release\sqlite3.dll
+D:\code\misc\GateKeeper\Test\bin\Release\Test.exe.config
+D:\code\misc\GateKeeper\Test\bin\Release\Test.exe
+D:\code\misc\GateKeeper\Test\bin\Release\Test.pdb
+D:\code\misc\GateKeeper\Test\bin\Release\GateKeeper.dll
+D:\code\misc\GateKeeper\Test\bin\Release\SqliteWrapper.dll
+D:\code\misc\GateKeeper\Test\bin\Release\Mono.Data.Sqlite.dll
+D:\code\misc\GateKeeper\Test\bin\Release\GateKeeper.pdb
+D:\code\misc\GateKeeper\Test\bin\Release\SqliteWrapper.pdb
+D:\code\misc\GateKeeper\Test\obj\Release\Test.csprojResolveAssemblyReference.cache
+D:\code\misc\GateKeeper\Test\obj\Release\Test.exe
+D:\code\misc\GateKeeper\Test\obj\Release\Test.pdb

@@ -1,0 +1,15 @@
+D:\Code\Misc\GateKeeper\GateKeeper\bin\Release\sqlite3.dll
+D:\Code\Misc\GateKeeper\GateKeeper\bin\Release\GateKeeper.dll.config
+D:\Code\Misc\GateKeeper\GateKeeper\bin\Release\GateKeeper.dll
+D:\Code\Misc\GateKeeper\GateKeeper\bin\Release\GateKeeper.pdb
+D:\Code\Misc\GateKeeper\GateKeeper\bin\Release\EntityFramework.dll
+D:\Code\Misc\GateKeeper\GateKeeper\bin\Release\EntityFramework.SqlServer.dll
+D:\Code\Misc\GateKeeper\GateKeeper\bin\Release\Mono.Data.Sqlite.dll
+D:\Code\Misc\GateKeeper\GateKeeper\bin\Release\SqliteWrapper.dll
+D:\Code\Misc\GateKeeper\GateKeeper\bin\Release\System.Data.Portable.dll
+D:\Code\Misc\GateKeeper\GateKeeper\bin\Release\System.Transactions.Portable.dll
+D:\Code\Misc\GateKeeper\GateKeeper\bin\Release\EntityFramework.xml
+D:\Code\Misc\GateKeeper\GateKeeper\bin\Release\EntityFramework.SqlServer.xml
+D:\Code\Misc\GateKeeper\GateKeeper\bin\Release\SqliteWrapper.pdb
+D:\Code\Misc\GateKeeper\GateKeeper\obj\Release\GateKeeper.dll
+D:\Code\Misc\GateKeeper\GateKeeper\obj\Release\GateKeeper.pdb

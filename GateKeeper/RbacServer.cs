@@ -42,7 +42,7 @@ namespace GateKeeper
 
         #endregion
 
-        #region Public-Members
+        #region Public-Methods
 
         public bool Authorize(string user, string resource, string operation)
         {
@@ -51,7 +51,7 @@ namespace GateKeeper
             if (String.IsNullOrEmpty(operation)) throw new ArgumentNullException(nameof(operation));
 
             string query = 
-                "SELECT IFNULL(SUM(allow),0) AS allow_total FROM role_perm WHERE " +
+                "SELECT SUM(allow) AS allow_total FROM role_perm WHERE " +
                 "    resource = '" + DatabaseClient.SanitizeString(resource) + "' " +
                 "AND operation = '" + DatabaseClient.SanitizeString(operation) + "' " +
                 "AND rolename IN " +
@@ -64,8 +64,11 @@ namespace GateKeeper
 
             foreach (DataRow row in result.Rows)
             {
-                int ret = Convert.ToInt32(row["allow_total"]);
-                return IntToBool(ret);
+                if (row["allow_total"] != DBNull.Value)
+                {
+                    int ret = Convert.ToInt32(row["allow_total"]);
+                    return IntToBool(ret);
+                }
             }
 
             return DefaultPermit;
@@ -242,7 +245,7 @@ namespace GateKeeper
 
         #endregion
 
-        #region Private-Members
+        #region Private-Methods
 
         private void CreateTables()
         {

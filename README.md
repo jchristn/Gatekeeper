@@ -1,5 +1,10 @@
 # Gatekeeper Roles-Based Access Control
 
+[![][nuget-img]][nuget]
+
+[nuget]:     https://www.nuget.org/packages/Gatekeeper/
+[nuget-img]: https://badge.fury.io/nu/Object.svg
+
 Roles-Based Access Control Library in C#
 
 Gatekeeper is a simple library for implementing roles-based access control to control access to resources by users given a specified operation type.  Gatekeeper uses Sqlite3 and requires that sqlite3.dll be placed in the project and output directory.  

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>GateKeeper</id>
+    <version>1.0.2</version>
+    <authors>Joel Christner</authors>
+    <owners>Joel Christner</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/jchristn/Gatekeeper/blob/master/LICENSE.txt</licenseUrl>
+    <projectUrl>https://github.com/jchristn/Gatekeeper</projectUrl>
+    <description>Lightweight library for implementing roles-based access control (RBAC).  With Gatekeeper, you can define users, roles, resources, and permissions, and authorize requests.</description>
+    <releaseNotes>Move from Mono.Data.Sqlite to System.Data.SQLite, retarget to .NET Core 2.0 and .NET Framework 4.5.2</releaseNotes>
+    <copyright>(c)2019 Joel Christner</copyright>
+    <tags>rbac roles based access control authorize deny acl</tags>
+    <repository type="Github" url="https://github.com/jchristn/Gatekeeper" />
+    <dependencies>
+      <group targetFramework=".NETFramework4.5.2">
+        <dependency id="SqliteHelper" version="1.0.9" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="SqliteHelper" version="1.0.9" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\code\misc\GateKeeperRetarget\GateKeeper\bin\Release\net452\GateKeeper.dll" target="lib\net452\GateKeeper.dll" />
+    <file src="C:\code\misc\GateKeeperRetarget\GateKeeper\bin\Release\netstandard2.0\GateKeeper.dll" target="lib\netstandard2.0\GateKeeper.dll" />
+  </files>
+</package>

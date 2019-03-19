@@ -1,0 +1,14 @@
+C:\code\misc\GateKeeperRetarget\GateKeeper\bin\Release\net452\GateKeeper.dll
+C:\code\misc\GateKeeperRetarget\GateKeeper\bin\Release\net452\GateKeeper.pdb
+C:\code\misc\GateKeeperRetarget\GateKeeper\bin\Release\net452\EntityFramework.SqlServer.dll
+C:\code\misc\GateKeeperRetarget\GateKeeper\bin\Release\net452\EntityFramework.dll
+C:\code\misc\GateKeeperRetarget\GateKeeper\bin\Release\net452\SqliteWrapper.dll
+C:\code\misc\GateKeeperRetarget\GateKeeper\bin\Release\net452\System.Data.SQLite.dll
+C:\code\misc\GateKeeperRetarget\GateKeeper\bin\Release\net452\System.Data.SQLite.EF6.dll
+C:\code\misc\GateKeeperRetarget\GateKeeper\bin\Release\net452\System.Data.SQLite.Linq.dll
+C:\code\misc\GateKeeperRetarget\GateKeeper\obj\Release\net452\GateKeeper.csproj.CoreCompileInputs.cache
+C:\code\misc\GateKeeperRetarget\GateKeeper\obj\Release\net452\GateKeeper.AssemblyInfoInputs.cache
+C:\code\misc\GateKeeperRetarget\GateKeeper\obj\Release\net452\GateKeeper.AssemblyInfo.cs
+C:\code\misc\GateKeeperRetarget\GateKeeper\obj\Release\net452\GateKeeper.csproj.CopyComplete
+C:\code\misc\GateKeeperRetarget\GateKeeper\obj\Release\net452\GateKeeper.dll
+C:\code\misc\GateKeeperRetarget\GateKeeper\obj\Release\net452\GateKeeper.pdb

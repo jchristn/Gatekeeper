@@ -1,0 +1,9 @@
+C:\code\misc\GateKeeperRetarget\GateKeeper\bin\Release\netstandard2.0\GateKeeper.deps.json
+C:\code\misc\GateKeeperRetarget\GateKeeper\bin\Release\netstandard2.0\GateKeeper.dll
+C:\code\misc\GateKeeperRetarget\GateKeeper\bin\Release\netstandard2.0\GateKeeper.pdb
+C:\code\misc\GateKeeperRetarget\GateKeeper\obj\Release\netstandard2.0\GateKeeper.csprojAssemblyReference.cache
+C:\code\misc\GateKeeperRetarget\GateKeeper\obj\Release\netstandard2.0\GateKeeper.csproj.CoreCompileInputs.cache
+C:\code\misc\GateKeeperRetarget\GateKeeper\obj\Release\netstandard2.0\GateKeeper.AssemblyInfoInputs.cache
+C:\code\misc\GateKeeperRetarget\GateKeeper\obj\Release\netstandard2.0\GateKeeper.AssemblyInfo.cs
+C:\code\misc\GateKeeperRetarget\GateKeeper\obj\Release\netstandard2.0\GateKeeper.dll
+C:\code\misc\GateKeeperRetarget\GateKeeper\obj\Release\netstandard2.0\GateKeeper.pdb

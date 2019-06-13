@@ -1,0 +1,14 @@
+C:\code\Misc\GateKeeper\Test\bin\Release\netcoreapp2.0\Test.deps.json
+C:\code\Misc\GateKeeper\Test\bin\Release\netcoreapp2.0\Test.runtimeconfig.json
+C:\code\Misc\GateKeeper\Test\bin\Release\netcoreapp2.0\Test.runtimeconfig.dev.json
+C:\code\Misc\GateKeeper\Test\bin\Release\netcoreapp2.0\Test.dll
+C:\code\Misc\GateKeeper\Test\bin\Release\netcoreapp2.0\Test.pdb
+C:\code\Misc\GateKeeper\Test\bin\Release\netcoreapp2.0\GateKeeper.dll
+C:\code\Misc\GateKeeper\Test\bin\Release\netcoreapp2.0\GateKeeper.pdb
+C:\code\Misc\GateKeeper\Test\obj\Release\netcoreapp2.0\Test.csprojAssemblyReference.cache
+C:\code\Misc\GateKeeper\Test\obj\Release\netcoreapp2.0\Test.csproj.CoreCompileInputs.cache
+C:\code\Misc\GateKeeper\Test\obj\Release\netcoreapp2.0\Test.AssemblyInfoInputs.cache
+C:\code\Misc\GateKeeper\Test\obj\Release\netcoreapp2.0\Test.AssemblyInfo.cs
+C:\code\Misc\GateKeeper\Test\obj\Release\netcoreapp2.0\Test.csproj.CopyComplete
+C:\code\Misc\GateKeeper\Test\obj\Release\netcoreapp2.0\Test.dll
+C:\code\Misc\GateKeeper\Test\obj\Release\netcoreapp2.0\Test.pdb

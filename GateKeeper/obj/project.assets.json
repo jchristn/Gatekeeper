@@ -574,13 +574,13 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
-    "version": "1.0.2",
+    "version": "1.0.3",
     "restore": {
-      "projectUniqueName": "C:\\code\\misc\\GateKeeperRetarget\\GateKeeper\\GateKeeper.csproj",
+      "projectUniqueName": "C:\\code\\Misc\\GateKeeper\\GateKeeper\\GateKeeper.csproj",
       "projectName": "GateKeeper",
-      "projectPath": "C:\\code\\misc\\GateKeeperRetarget\\GateKeeper\\GateKeeper.csproj",
+      "projectPath": "C:\\code\\Misc\\GateKeeper\\GateKeeper\\GateKeeper.csproj",
       "packagesPath": "C:\\Users\\joelc\\.nuget\\packages\\",
-      "outputPath": "C:\\code\\misc\\GateKeeperRetarget\\GateKeeper\\obj\\",
+      "outputPath": "C:\\code\\Misc\\GateKeeper\\GateKeeper\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
       "fallbackFolders": [

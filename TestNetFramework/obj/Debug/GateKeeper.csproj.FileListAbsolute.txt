@@ -1,1 +1,0 @@
-d:\code\misc\GateKeeper\GateKeeper\bin\Debug\GateKeeper.exe.config

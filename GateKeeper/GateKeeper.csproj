@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net452</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <Authors>Joel Christner</Authors>
     <Description>Lightweight library for implementing roles-based access control (RBAC).  With Gatekeeper, you can define users, roles, resources, and permissions, and authorize requests.</Description>
     <Copyright>(c)2019 Joel Christner</Copyright>
@@ -13,6 +13,7 @@
     <PackageLicenseUrl>https://github.com/jchristn/Gatekeeper/blob/master/LICENSE.txt</PackageLicenseUrl>
     <PackageTags>rbac roles based access control authorize deny acl</PackageTags>
     <PackageReleaseNotes>Move from Mono.Data.Sqlite to System.Data.SQLite, retarget to .NET Core 2.0 and .NET Framework 4.5.2</PackageReleaseNotes>
+    <PackageIconUrl>https://raw.githubusercontent.com/jchristn/gatekeeper/master/assets/icon.ico</PackageIconUrl>
   </PropertyGroup>
 
   <ItemGroup>

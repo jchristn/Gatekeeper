@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestNetFramework", "TestNetFramework\TestNetFramework.csproj", "{6D626E30-F0EB-4E22-BA62-0F654B77ECA0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{6D626E30-F0EB-4E22-BA62-0F654B77ECA0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GateKeeper", "GateKeeper\GateKeeper.csproj", "{974350B0-0357-4735-AC82-24ADB641CF3A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestNetCore", "TestNetCore\TestNetCore.csproj", "{2954146E-918B-4D5A-A335-19E9CE1FE457}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

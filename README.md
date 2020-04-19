@@ -1,9 +1,6 @@
 # Gatekeeper Roles-Based Access Control
 
-[![][nuget-img]][nuget]
-
-[nuget]:     https://www.nuget.org/packages/Gatekeeper/
-[nuget-img]: https://badge.fury.io/nu/Object.svg
+[![NuGet Version](https://img.shields.io/nuget/v/Gatekeeper.svg?style=flat)](https://www.nuget.org/packages/Gatekeeper/) [![NuGet](https://img.shields.io/nuget/dt/Gatekeeper.svg)](https://www.nuget.org/packages/Gatekeeper) 
 
 Roles-Based Access Control Library in C#
 

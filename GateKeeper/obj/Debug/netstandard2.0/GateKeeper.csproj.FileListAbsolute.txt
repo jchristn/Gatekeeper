@@ -1,9 +1,8 @@
-C:\code\Misc\GateKeeper\GateKeeper\bin\Debug\netstandard2.0\GateKeeper.deps.json
-C:\code\Misc\GateKeeper\GateKeeper\bin\Debug\netstandard2.0\GateKeeper.dll
-C:\code\Misc\GateKeeper\GateKeeper\bin\Debug\netstandard2.0\GateKeeper.pdb
-C:\code\Misc\GateKeeper\GateKeeper\obj\Debug\netstandard2.0\GateKeeper.csprojAssemblyReference.cache
-C:\code\Misc\GateKeeper\GateKeeper\obj\Debug\netstandard2.0\GateKeeper.csproj.CoreCompileInputs.cache
-C:\code\Misc\GateKeeper\GateKeeper\obj\Debug\netstandard2.0\GateKeeper.AssemblyInfoInputs.cache
-C:\code\Misc\GateKeeper\GateKeeper\obj\Debug\netstandard2.0\GateKeeper.AssemblyInfo.cs
-C:\code\Misc\GateKeeper\GateKeeper\obj\Debug\netstandard2.0\GateKeeper.dll
-C:\code\Misc\GateKeeper\GateKeeper\obj\Debug\netstandard2.0\GateKeeper.pdb
+C:\Code\Misc\GateKeeper\GateKeeper\obj\Debug\netstandard2.0\GateKeeper.csprojAssemblyReference.cache
+C:\Code\Misc\GateKeeper\GateKeeper\obj\Debug\netstandard2.0\GateKeeper.AssemblyInfoInputs.cache
+C:\Code\Misc\GateKeeper\GateKeeper\obj\Debug\netstandard2.0\GateKeeper.AssemblyInfo.cs
+C:\Code\Misc\GateKeeper\GateKeeper\bin\Debug\netstandard2.0\GateKeeper.deps.json
+C:\Code\Misc\GateKeeper\GateKeeper\bin\Debug\netstandard2.0\GateKeeper.dll
+C:\Code\Misc\GateKeeper\GateKeeper\bin\Debug\netstandard2.0\GateKeeper.pdb
+C:\Code\Misc\GateKeeper\GateKeeper\obj\Debug\netstandard2.0\GateKeeper.dll
+C:\Code\Misc\GateKeeper\GateKeeper\obj\Debug\netstandard2.0\GateKeeper.pdb

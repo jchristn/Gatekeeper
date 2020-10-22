@@ -1,0 +1,7 @@
+C:\Code\Misc\GateKeeper\GateKeeper\bin\Release\netcoreapp3.1\GateKeeper.deps.json
+C:\Code\Misc\GateKeeper\GateKeeper\bin\Release\netcoreapp3.1\GateKeeper.dll
+C:\Code\Misc\GateKeeper\GateKeeper\bin\Release\netcoreapp3.1\GateKeeper.pdb
+C:\Code\Misc\GateKeeper\GateKeeper\obj\Release\netcoreapp3.1\GateKeeper.AssemblyInfoInputs.cache
+C:\Code\Misc\GateKeeper\GateKeeper\obj\Release\netcoreapp3.1\GateKeeper.AssemblyInfo.cs
+C:\Code\Misc\GateKeeper\GateKeeper\obj\Release\netcoreapp3.1\GateKeeper.dll
+C:\Code\Misc\GateKeeper\GateKeeper\obj\Release\netcoreapp3.1\GateKeeper.pdb

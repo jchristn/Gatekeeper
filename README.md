@@ -15,4 +15,7 @@ First things first - do you need help or have feedback?  Contact me at joel at m
 ## Sample App
 
 Refer to the ```Test``` project for a working example.
- 
+
+## Sqlite and .NET Framework
+
+You'll need to copy the ```runtimes``` directory into your application directory.  Please refer to WatsonORM (see https://github.com/jchristn/watsonorm) Test.Sqlite project.

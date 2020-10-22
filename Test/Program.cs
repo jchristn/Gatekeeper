@@ -95,7 +95,7 @@ namespace GateKeeper
                         {
                             foreach (RolePermission currPerm in perms)
                             {
-                                Console.WriteLine("  " + currPerm.RoleName + " " + currPerm.Operation + " " + currPerm.Resource + ": " + currPerm.Allow);
+                                Console.WriteLine("  " + currPerm.Rolename + " " + currPerm.Operation + " " + currPerm.Resource + ": " + currPerm.Allow);
                             }
                         }
                         break;

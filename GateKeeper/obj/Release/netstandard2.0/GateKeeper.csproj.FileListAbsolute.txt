@@ -11,7 +11,6 @@ C:\code\Misc\GateKeeper\GateKeeper\bin\Release\netstandard2.0\GateKeeper.deps.js
 C:\code\Misc\GateKeeper\GateKeeper\bin\Release\netstandard2.0\GateKeeper.dll
 C:\code\Misc\GateKeeper\GateKeeper\bin\Release\netstandard2.0\GateKeeper.pdb
 C:\code\Misc\GateKeeper\GateKeeper\obj\Release\netstandard2.0\GateKeeper.csprojAssemblyReference.cache
-C:\code\Misc\GateKeeper\GateKeeper\obj\Release\netstandard2.0\GateKeeper.csproj.CoreCompileInputs.cache
 C:\code\Misc\GateKeeper\GateKeeper\obj\Release\netstandard2.0\GateKeeper.AssemblyInfoInputs.cache
 C:\code\Misc\GateKeeper\GateKeeper\obj\Release\netstandard2.0\GateKeeper.AssemblyInfo.cs
 C:\code\Misc\GateKeeper\GateKeeper\obj\Release\netstandard2.0\GateKeeper.dll

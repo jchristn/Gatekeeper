@@ -1,0 +1,9 @@
+C:\Code\Misc\GateKeeper\GateKeeper\obj\Debug\netcoreapp2.0\GateKeeper.csprojAssemblyReference.cache
+C:\Code\Misc\GateKeeper\GateKeeper\obj\Debug\netcoreapp2.0\GateKeeper.AssemblyInfoInputs.cache
+C:\Code\Misc\GateKeeper\GateKeeper\obj\Debug\netcoreapp2.0\GateKeeper.AssemblyInfo.cs
+C:\Code\Misc\GateKeeper\GateKeeper\bin\Debug\netcoreapp2.0\GateKeeper.deps.json
+C:\Code\Misc\GateKeeper\GateKeeper\bin\Debug\netcoreapp2.0\GateKeeper.dll
+C:\Code\Misc\GateKeeper\GateKeeper\bin\Debug\netcoreapp2.0\GateKeeper.pdb
+C:\Code\Misc\GateKeeper\GateKeeper\bin\Debug\netcoreapp2.0\GateKeeper.xml
+C:\Code\Misc\GateKeeper\GateKeeper\obj\Debug\netcoreapp2.0\GateKeeper.dll
+C:\Code\Misc\GateKeeper\GateKeeper\obj\Debug\netcoreapp2.0\GateKeeper.pdb

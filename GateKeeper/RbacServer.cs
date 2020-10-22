@@ -4,284 +4,263 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SqliteWrapper;
+using Watson.ORM.Core;
+using Watson.ORM.Sqlite;
 
 namespace GateKeeper
 {
+    /// <summary>
+    /// GateKeeper roles-based access control server.
+    /// </summary>
     public class RbacServer
     {
         #region Public-Members
 
+        /// <summary>
+        /// Specify the default response if no matching roles and permissions are found when authorizing a user's request.
+        /// </summary>
         public bool DefaultPermit = false;
 
         #endregion
 
         #region Private-Members
          
-        private DatabaseClient Db;
+        private WatsonORM _ORM = null;
 
         #endregion
 
         #region Constructors-and-Factories
 
+        /// <summary>
+        /// Instantiate the object.
+        /// </summary>
+        /// <param name="dbFile">Database file.</param>
         public RbacServer(string dbFile)
         {
-            if (String.IsNullOrEmpty(dbFile)) throw new ArgumentNullException(nameof(dbFile)); 
-            Db = new DatabaseClient(dbFile, false);
-
-            CreateTables();
+            if (String.IsNullOrEmpty(dbFile)) throw new ArgumentNullException(nameof(dbFile));
+            _ORM = new WatsonORM(new DatabaseSettings(dbFile));
+            _ORM.InitializeDatabase();
+            _ORM.InitializeTable(typeof(UserRole));
+            _ORM.InitializeTable(typeof(RolePermission));
         }
-         
-        public RbacServer(string dbFile, bool dbDebug)
-        {
-            if (String.IsNullOrEmpty(dbFile)) throw new ArgumentNullException(nameof(dbFile)); 
-            Db = new DatabaseClient(dbFile, dbDebug);
-
-            CreateTables();
-        }
-
+          
         #endregion
 
         #region Public-Methods
 
-        public bool Authorize(string user, string resource, string operation)
+        /// <summary>
+        /// Authorize a user's request against a resource by operation type.
+        /// </summary>
+        /// <param name="username">The name of the user.</param>
+        /// <param name="resource">The resource.</param>
+        /// <param name="operation">The type of operation.</param>
+        /// <returns>True if authorized.</returns>
+        public bool Authorize(string username, string resource, string operation)
         {
-            if (String.IsNullOrEmpty(user)) throw new ArgumentNullException(nameof(user));
+            if (String.IsNullOrEmpty(username)) throw new ArgumentNullException(nameof(username));
             if (String.IsNullOrEmpty(resource)) throw new ArgumentNullException(nameof(resource));
             if (String.IsNullOrEmpty(operation)) throw new ArgumentNullException(nameof(operation));
 
-            string query = 
-                "SELECT SUM(allow) AS allow_total FROM role_perm WHERE " +
-                "    resource = '" + DatabaseClient.SanitizeString(resource) + "' " +
-                "AND operation = '" + DatabaseClient.SanitizeString(operation) + "' " +
-                "AND rolename IN " +
-                "(" +
-                "  SELECT rolename FROM user_role WHERE username = '" + DatabaseClient.SanitizeString(user) + "'" +
-                ")";
+            DbExpression e1 = new DbExpression(_ORM.GetColumnName<UserRole>(nameof(UserRole.Username)), DbOperators.Equals, username);
+            List<UserRole> u = _ORM.SelectMany<UserRole>(e1);
+            List<string> r = new List<string>();
+            if (u != null && u.Count > 0) foreach (UserRole role in u) r.Add(role.Rolename);
 
-            DataTable result = Db.Query(query);
-            if (result == null || result.Rows.Count < 1) return DefaultPermit;
-
-            foreach (DataRow row in result.Rows)
+            if (r.Count > 0)
             {
-                if (row["allow_total"] != DBNull.Value)
+                r = r.Distinct().ToList();
+                DbExpression e2 = new DbExpression(_ORM.GetColumnName<RolePermission>(nameof(RolePermission.Rolename)), DbOperators.In, r);
+                List<RolePermission> p = _ORM.SelectMany<RolePermission>(e2);
+
+                if (p != null && p.Count > 0)
                 {
-                    int ret = Convert.ToInt32(row["allow_total"]);
-                    return IntToBool(ret);
+                    return p.Any(rp => rp.Allow);
                 }
-            }
+            } 
 
             return DefaultPermit;
         }
 
-        public void AddUserToRole(string user, string role)
+        /// <summary>
+        /// Add a user to a specified role.
+        /// </summary>
+        /// <param name="username">The name of the user.</param>
+        /// <param name="rolename">The name of the role.</param>
+        public void AddUserToRole(string username, string rolename)
         {
-            if (String.IsNullOrEmpty(user)) throw new ArgumentNullException(nameof(user));
-            if (String.IsNullOrEmpty(role)) throw new ArgumentNullException(nameof(role));
-
-            string insertQuery = "INSERT INTO user_role (username, rolename) VALUES (" +
-                "'" + DatabaseClient.SanitizeString(user) + "', " +
-                "'" + DatabaseClient.SanitizeString(role) + "'" +
-                ")";
-
-            Db.Query(insertQuery);
-            return;
+            if (String.IsNullOrEmpty(username)) throw new ArgumentNullException(nameof(username));
+            if (String.IsNullOrEmpty(rolename)) throw new ArgumentNullException(nameof(rolename)); 
+            UserRole u = new UserRole(username, rolename);
+            _ORM.Insert<UserRole>(u); 
         }
 
-        public void AddRolePermission(string role, string resource, string operation, bool allow)
+        /// <summary>
+        /// Add a role with a specific permission, or add permission to an existing role.
+        /// </summary>
+        /// <param name="rolename">The name of the role.</param>
+        /// <param name="resource">The resource.</param>
+        /// <param name="operation">The type of operation.</param>
+        /// <param name="allow">Permit (true) or deny (false).</param>
+        public void AddRolePermission(string rolename, string resource, string operation, bool allow)
         {
-            if (String.IsNullOrEmpty(role)) throw new ArgumentNullException(nameof(role));
+            if (String.IsNullOrEmpty(rolename)) throw new ArgumentNullException(nameof(rolename));
             if (String.IsNullOrEmpty(resource)) throw new ArgumentNullException(nameof(resource));
             if (String.IsNullOrEmpty(operation)) throw new ArgumentNullException(nameof(operation));
-
-            string insertQuery = "INSERT INTO role_perm (rolename, resource, operation, allow) VALUES (" +
-                "'" + DatabaseClient.SanitizeString(role) + "', " +
-                "'" + DatabaseClient.SanitizeString(resource) + "', " +
-                "'" + DatabaseClient.SanitizeString(operation) + "', " +
-                BoolToInt(allow) + 
-                ")";
-
-            Db.Query(insertQuery);
-            return;
+            RolePermission r = new RolePermission(rolename, resource, operation, allow);
+            _ORM.Insert<RolePermission>(r);
         }
 
-        public void RemoveUser(string user)
+        /// <summary>
+        /// Remove a user.
+        /// </summary>
+        /// <param name="username">The name of the user.</param>
+        public void RemoveUser(string username)
         {
-            if (String.IsNullOrEmpty(user)) throw new ArgumentNullException(nameof(user));
-
-            string userQuery = "DELETE FROM user_role WHERE username = '" + DatabaseClient.SanitizeString(user) + "'";
-            Db.Query(userQuery);
-            return;
+            if (String.IsNullOrEmpty(username)) throw new ArgumentNullException(nameof(username)); 
+            DbExpression e = new DbExpression(_ORM.GetColumnName<UserRole>(nameof(UserRole.Username)), DbOperators.Equals, username);
+            _ORM.DeleteMany<UserRole>(e);
         }
 
-        public void RemoveUserRole(string user, string role)
+        /// <summary>
+        /// Remove a user's mapping to a role.
+        /// </summary>
+        /// <param name="username">The name of the user.</param>
+        /// <param name="rolename">The name of the role.</param>
+        public void RemoveUserRole(string username, string rolename)
         {
-            if (String.IsNullOrEmpty(user)) throw new ArgumentNullException(nameof(user));
-            if (String.IsNullOrEmpty(role)) throw new ArgumentNullException(nameof(role));
-
-            string userQuery = "DELETE FROM user_role WHERE " +
-                "    username = '" + DatabaseClient.SanitizeString(user) + "' " +
-                "AND rolename = '" + DatabaseClient.SanitizeString(role) + "'";
-            Db.Query(userQuery); 
-            return;
+            if (String.IsNullOrEmpty(username)) throw new ArgumentNullException(nameof(username));
+            if (String.IsNullOrEmpty(rolename)) throw new ArgumentNullException(nameof(rolename));
+            DbExpression e = new DbExpression(_ORM.GetColumnName<UserRole>(nameof(UserRole.Username)), DbOperators.Equals, username);
+            e.PrependAnd(_ORM.GetColumnName<UserRole>(nameof(UserRole.Rolename)), DbOperators.Equals, rolename);
+            _ORM.DeleteMany<UserRole>(e);
         }
 
-        public void RemoveRole(string role)
+        /// <summary>
+        /// Remove a role.
+        /// </summary>
+        /// <param name="rolename">The name of the role.</param>
+        public void RemoveRole(string rolename)
         {
-            if (String.IsNullOrEmpty(role)) throw new ArgumentNullException(nameof(role));
-
-            string userQuery = "DELETE FROM user_role WHERE rolename = '" + DatabaseClient.SanitizeString(role) + "'";
-            Db.Query(userQuery);
-            string roleQuery = "DELETE FROM role_perm WHERE rolename = '" + DatabaseClient.SanitizeString(role) + "'";
-            Db.Query(roleQuery);
-            return;
+            if (String.IsNullOrEmpty(rolename)) throw new ArgumentNullException(nameof(rolename));
+            DbExpression e1 = new DbExpression(_ORM.GetColumnName<UserRole>(nameof(UserRole.Rolename)), DbOperators.Equals, rolename);
+            DbExpression e2 = new DbExpression(_ORM.GetColumnName<RolePermission>(nameof(RolePermission.Rolename)), DbOperators.Equals, rolename);
+            _ORM.DeleteMany<UserRole>(e1);
+            _ORM.DeleteMany<RolePermission>(e2);
         }
 
-        public void RemoveRolePermission(string role, string resource, string operation)
+        /// <summary>
+        /// Remove a permission entry from a role.
+        /// </summary>
+        /// <param name="rolename">The name of the role.</param>
+        /// <param name="resource">The resource.</param>
+        /// <param name="operation">The type of operation.</param>
+        public void RemoveRolePermission(string rolename, string resource, string operation)
         {
-            if (String.IsNullOrEmpty(role)) throw new ArgumentNullException(nameof(role));
+            if (String.IsNullOrEmpty(rolename)) throw new ArgumentNullException(nameof(rolename));
             if (String.IsNullOrEmpty(resource)) throw new ArgumentNullException(nameof(resource));
             if (String.IsNullOrEmpty(operation)) throw new ArgumentNullException(nameof(operation));
-
-            string query = "DELETE FROM role_perm WHERE " +
-                "    rolename = '" + DatabaseClient.SanitizeString(role) + "' " +
-                "AND resource = '" + DatabaseClient.SanitizeString(resource) + "' " +
-                "AND operation = '" + DatabaseClient.SanitizeString(operation) + "'";
-
-            Db.Query(query);
-            return;
+            DbExpression e = new DbExpression(_ORM.GetColumnName<RolePermission>(nameof(RolePermission.Rolename)), DbOperators.Equals, rolename);
+            e.PrependAnd(_ORM.GetColumnName<RolePermission>(nameof(RolePermission.Resource)), DbOperators.Equals, resource);
+            e.PrependAnd(_ORM.GetColumnName<RolePermission>(nameof(RolePermission.Operation)), DbOperators.Equals, operation);
+            _ORM.DeleteMany<RolePermission>(e);
         }
 
-        public bool UserExists(string user)
+        /// <summary>
+        /// Determine if a user exists.
+        /// </summary>
+        /// <param name="username">The name of the user.</param>
+        /// <returns>True if exists.</returns>
+        public bool UserExists(string username)
         {
-            if (String.IsNullOrEmpty(user)) throw new ArgumentNullException(nameof(user));
-
-            string query = "SELECT * FROM user_role WHERE username = '" + DatabaseClient.SanitizeString(user) + "'";
-            DataTable result = Db.Query(query);
-            if (result != null && result.Rows.Count > 0) return true;
-            return false;
+            if (String.IsNullOrEmpty(username)) throw new ArgumentNullException(nameof(username));
+            DbExpression e = new DbExpression(_ORM.GetColumnName<UserRole>(nameof(UserRole.Username)), DbOperators.Equals, username);
+            return _ORM.Exists<UserRole>(e); 
         }
 
-        public bool RoleExists(string role)
+        /// <summary>
+        /// Determine if a role exists.
+        /// </summary>
+        /// <param name="rolename">The name of the role.</param>
+        /// <returns>True if exists.</returns>
+        public bool RoleExists(string rolename)
         {
-            if (String.IsNullOrEmpty(role)) throw new ArgumentNullException(nameof(role));
-
-            string query = "SELECT * FROM role_perm WHERE rolename = '" + DatabaseClient.SanitizeString(role) + "'";
-            DataTable result = Db.Query(query);
-            if (result != null && result.Rows.Count > 0) return true;
-            return false;
+            if (String.IsNullOrEmpty(rolename)) throw new ArgumentNullException(nameof(rolename));
+            DbExpression e = new DbExpression(_ORM.GetColumnName<RolePermission>(nameof(RolePermission.Rolename)), DbOperators.Equals, rolename);
+            return _ORM.Exists<UserRole>(e);
         }
 
-        public bool UserRoleExists(string user, string role)
+        /// <summary>
+        /// Determine if a user is mapped to a role.
+        /// </summary>
+        /// <param name="username">The name of the user.</param>
+        /// <param name="rolename">The name of the role.</param>
+        /// <returns>True if the user is mapped to the role.</returns>
+        public bool UserRoleExists(string username, string rolename)
         {
-            if (String.IsNullOrEmpty(user)) throw new ArgumentNullException(nameof(user));
-            if (String.IsNullOrEmpty(role)) throw new ArgumentNullException(nameof(role));
-
-            string query =
-                "SELECT * FROM user_role WHERE " +
-                "    username = '" + DatabaseClient.SanitizeString(user) + "' " +
-                "AND rolename = '" + DatabaseClient.SanitizeString(role) + "'";
-            DataTable result = Db.Query(query);
-            if (result != null && result.Rows.Count > 0) return true;
-            return false;
+            if (String.IsNullOrEmpty(username)) throw new ArgumentNullException(nameof(username));
+            if (String.IsNullOrEmpty(rolename)) throw new ArgumentNullException(nameof(rolename));
+            DbExpression e = new DbExpression(_ORM.GetColumnName<UserRole>(nameof(UserRole.Username)), DbOperators.Equals, username);
+            e.PrependAnd(_ORM.GetColumnName<UserRole>(nameof(UserRole.Rolename)), DbOperators.Equals, rolename);
+            return _ORM.Exists<UserRole>(e);
         }
 
-        public bool RolePermissionExists(string role, string resource, string operation)
+        /// <summary>
+        /// Determine if a role has permissions defined to access a specified resource using a specific operation.
+        /// </summary>
+        /// <param name="rolename">The name of the role.</param>
+        /// <param name="resource">The resource.</param>
+        /// <param name="operation">The type of operation.</param>
+        /// <returns>True if the role has permissions defined for the specified resource and specified operation.</returns>
+        public bool RolePermissionExists(string rolename, string resource, string operation)
         {
-            if (String.IsNullOrEmpty(role)) throw new ArgumentNullException(nameof(role));
+            if (String.IsNullOrEmpty(rolename)) throw new ArgumentNullException(nameof(rolename));
             if (String.IsNullOrEmpty(resource)) throw new ArgumentNullException(nameof(resource));
             if (String.IsNullOrEmpty(operation)) throw new ArgumentNullException(nameof(operation));
-
-            string query =
-                "SELECT * FROM role_perm WHERE " +
-                "    rolename = '" + DatabaseClient.SanitizeString(role) + "' " +
-                "AND resource = '" + DatabaseClient.SanitizeString(resource) + "' " +
-                "AND operation = '" + DatabaseClient.SanitizeString(operation) + "' ";
-            DataTable result = Db.Query(query);
-            if (result != null && result.Rows.Count > 0) return true;
-            return false;
+            DbExpression e = new DbExpression(_ORM.GetColumnName<RolePermission>(nameof(RolePermission.Rolename)), DbOperators.Equals, rolename);
+            e.PrependAnd(_ORM.GetColumnName<RolePermission>(nameof(RolePermission.Resource)), DbOperators.Equals, resource);
+            e.PrependAnd(_ORM.GetColumnName<RolePermission>(nameof(RolePermission.Operation)), DbOperators.Equals, operation);
+            return _ORM.Exists<RolePermission>(e);
         }
 
-        public List<string> GetUserRoles(string user)
+        /// <summary>
+        /// Retrieve the list of role names to which the user is assigned.
+        /// </summary>
+        /// <param name="username">The name of the user.</param>
+        /// <returns>List of role names.</returns>
+        public List<string> GetUserRoles(string username)
         {
-            if (String.IsNullOrEmpty(user)) throw new ArgumentNullException(nameof(user));
-
-            string query = "SELECT * FROM user_role WHERE username = '" + DatabaseClient.SanitizeString(user) + "'";
-            DataTable result = Db.Query(query);
-
+            if (String.IsNullOrEmpty(username)) throw new ArgumentNullException(nameof(username));
+            DbExpression e = new DbExpression(_ORM.GetColumnName<UserRole>(nameof(UserRole.Id)), DbOperators.GreaterThan, 0);
+            e.PrependAnd(_ORM.GetColumnName<UserRole>(nameof(UserRole.Username)), DbOperators.Equals, username);
+            List<UserRole> u = _ORM.SelectMany<UserRole>(e);
             List<string> ret = new List<string>();
-            if (result != null && result.Rows.Count > 0)
+            if (u.Count > 0)
             {
-                foreach (DataRow curr in result.Rows)
-                {
-                    ret.Add(curr["rolename"].ToString());
-                }
+                foreach (UserRole r in u) ret.Add(r.Rolename);
+                if (ret.Count > 0) ret = ret.Distinct().ToList();
             }
-
-            ret = ret.Distinct().ToList();
             return ret;
         }
 
-        public List<RolePermission> GetRolePermissions(string role)
+        /// <summary>
+        /// Retrieve the list of permissions assigned to a role.
+        /// </summary>
+        /// <param name="rolename">The name of the role.</param>
+        /// <returns>List of role permissions.</returns>
+        public List<RolePermission> GetRolePermissions(string rolename)
         {
-            if (String.IsNullOrEmpty(role)) throw new ArgumentNullException(nameof(role));
+            if (String.IsNullOrEmpty(rolename)) throw new ArgumentNullException(nameof(rolename));
 
-            string query = "SELECT * FROM role_perm WHERE rolename = '" + DatabaseClient.SanitizeString(role) + "'";
-            DataTable result = Db.Query(query);
-
-            List<RolePermission> ret = new List<RolePermission>();
-            if (result != null && result.Rows.Count > 0)
-            {
-                foreach (DataRow curr in result.Rows)
-                {
-                    RolePermission r = RolePermission.FromDataRow(curr);
-                    ret.Add(r);
-                }
-            }
-
-            ret = ret.Distinct().ToList();
-            return ret;
+            DbExpression e = new DbExpression(_ORM.GetColumnName<RolePermission>(nameof(RolePermission.Rolename)), DbOperators.Equals, rolename);
+            List<RolePermission> rp = _ORM.SelectMany<RolePermission>(e);
+            if (rp != null && rp.Count > 0) rp = rp.Distinct().ToList();
+            return rp;
         }
 
         #endregion
 
         #region Private-Methods
-
-        private void CreateTables()
-        {
-            // CREATE TABLE IF NOT EXISTS fp_pool (fp_pool_id INTEGER PRIMARY KEY AUTOINCREMENT, fp_key VARCHAR(64), data_len INTEGER, ref_count INTEGER)
-            string userRoleTable =
-                "CREATE TABLE IF NOT EXISTS user_role " +
-                "(" +
-                "  username VARCHAR(128), " +
-                "  rolename VARCHAR(128)  " +
-                ")";
-
-            string rolePermTable =
-                "CREATE TABLE IF NOT EXISTS role_perm " +
-                "(" +
-                "  rolename VARCHAR(128), " +
-                "  resource VARCHAR(128), " +
-                "  operation VARCHAR(32), " +
-                "  allow INTEGER " +
-                ")";
-
-            Db.Query(userRoleTable);
-            Db.Query(rolePermTable);
-        }
-
-        private int BoolToInt(bool val)
-        {
-            if (val) return 1;
-            return 0;
-        }
-
-        private bool IntToBool(int val)
-        {
-            if (val > 0) return true;
-            return false;
-        }
-
+          
         #endregion
     }
 }

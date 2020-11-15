@@ -7,10 +7,10 @@
   "targets": {
     ".NETStandard,Version=v2.0": {},
     ".NETStandard,Version=v2.0/": {
-      "GateKeeper/1.1.0": {
+      "GateKeeper/1.1.1": {
         "dependencies": {
           "NETStandard.Library": "2.0.3",
-          "WatsonORM.Sqlite": "1.3.0.14"
+          "WatsonORM.Sqlite": "1.3.0.17"
         },
         "runtime": {
           "GateKeeper.dll": {}
@@ -29,7 +29,7 @@
           }
         }
       },
-      "DatabaseWrapper.Sqlite/3.2.2.6": {
+      "DatabaseWrapper.Sqlite/3.2.2.9": {
         "dependencies": {
           "DatabaseWrapper.Core": "3.2.0.6",
           "Microsoft.CSharp": "4.7.0",
@@ -39,8 +39,8 @@
         },
         "runtime": {
           "lib/netstandard2.0/DatabaseWrapper.Sqlite.dll": {
-            "assemblyVersion": "3.2.2.6",
-            "fileVersion": "3.2.2.6"
+            "assemblyVersion": "3.2.2.9",
+            "fileVersion": "3.2.2.9"
           }
         }
       },
@@ -212,22 +212,22 @@
           }
         }
       },
-      "WatsonORM.Sqlite/1.3.0.14": {
+      "WatsonORM.Sqlite/1.3.0.17": {
         "dependencies": {
-          "DatabaseWrapper.Sqlite": "3.2.2.6",
+          "DatabaseWrapper.Sqlite": "3.2.2.9",
           "WatsonORM.Core": "1.3.0.14"
         },
         "runtime": {
           "lib/netstandard2.0/WatsonORM.Sqlite.dll": {
-            "assemblyVersion": "1.3.0.14",
-            "fileVersion": "1.3.0.14"
+            "assemblyVersion": "1.3.0.17",
+            "fileVersion": "1.3.0.17"
           }
         }
       }
     }
   },
   "libraries": {
-    "GateKeeper/1.1.0": {
+    "GateKeeper/1.1.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -239,12 +239,12 @@
       "path": "databasewrapper.core/3.2.0.6",
       "hashPath": "databasewrapper.core.3.2.0.6.nupkg.sha512"
     },
-    "DatabaseWrapper.Sqlite/3.2.2.6": {
+    "DatabaseWrapper.Sqlite/3.2.2.9": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-cVsMspp+P4CvedyNIvcqz4tM9EzWtJlliaf8vShfxwIFTc34NFw1G4BmilrvpVP/Zma+I98DyLuZvzXIAZ1Liw==",
-      "path": "databasewrapper.sqlite/3.2.2.6",
-      "hashPath": "databasewrapper.sqlite.3.2.2.6.nupkg.sha512"
+      "sha512": "sha512-p3otr/zXYdS5wMyjBeqyo/VLo49UaLzQNy0oKBoOE4HgIuwAxIcpSZvG0b1Bvx3a5h8z5MAqFKCsqFc5jxqOYA==",
+      "path": "databasewrapper.sqlite/3.2.2.9",
+      "hashPath": "databasewrapper.sqlite.3.2.2.9.nupkg.sha512"
     },
     "Microsoft.CSharp/4.7.0": {
       "type": "package",
@@ -379,12 +379,12 @@
       "path": "watsonorm.core/1.3.0.14",
       "hashPath": "watsonorm.core.1.3.0.14.nupkg.sha512"
     },
-    "WatsonORM.Sqlite/1.3.0.14": {
+    "WatsonORM.Sqlite/1.3.0.17": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-YXFe776Uy9P25Z0rtPZBsmaP4rmNC/eEpVLUhrBjk3Ms+yOvLU29H6OjSVkYx7elq0GV3Gu+kY8zRSqYElmQfg==",
-      "path": "watsonorm.sqlite/1.3.0.14",
-      "hashPath": "watsonorm.sqlite.1.3.0.14.nupkg.sha512"
+      "sha512": "sha512-8lRLLNCkOO5XtGeJNG6O19VX9DlYRdOqWobSernLARz/PY5wIzgjarSm8gTiB41/ZmmxmmQoqtolnY4EjBX5hA==",
+      "path": "watsonorm.sqlite/1.3.0.17",
+      "hashPath": "watsonorm.sqlite.1.3.0.17.nupkg.sha512"
     }
   }
 }

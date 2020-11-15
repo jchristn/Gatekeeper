@@ -125,3 +125,4 @@ C:\Code\Misc\GateKeeper\Test\obj\Release\net461\Test.AssemblyInfo.cs
 C:\Code\Misc\GateKeeper\Test\obj\Release\net461\Test.csproj.CopyComplete
 C:\Code\Misc\GateKeeper\Test\obj\Release\net461\Test.exe
 C:\Code\Misc\GateKeeper\Test\obj\Release\net461\Test.pdb
+C:\code\Misc\GateKeeper\Test\obj\Release\net461\Test.csproj.CoreCompileInputs.cache

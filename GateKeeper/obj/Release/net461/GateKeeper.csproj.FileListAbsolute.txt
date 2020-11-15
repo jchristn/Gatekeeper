@@ -120,3 +120,4 @@ C:\Code\Misc\GateKeeper\GateKeeper\obj\Release\net461\GateKeeper.AssemblyInfo.cs
 C:\Code\Misc\GateKeeper\GateKeeper\obj\Release\net461\GateKeeper.csproj.CopyComplete
 C:\Code\Misc\GateKeeper\GateKeeper\obj\Release\net461\GateKeeper.dll
 C:\Code\Misc\GateKeeper\GateKeeper\obj\Release\net461\GateKeeper.pdb
+C:\code\Misc\GateKeeper\GateKeeper\obj\Release\net461\GateKeeper.csproj.CoreCompileInputs.cache

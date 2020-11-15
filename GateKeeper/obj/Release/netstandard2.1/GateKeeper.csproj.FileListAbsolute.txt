@@ -6,3 +6,4 @@ C:\Code\Misc\GateKeeper\GateKeeper\obj\Release\netstandard2.1\GateKeeper.Assembl
 C:\Code\Misc\GateKeeper\GateKeeper\obj\Release\netstandard2.1\GateKeeper.AssemblyInfo.cs
 C:\Code\Misc\GateKeeper\GateKeeper\obj\Release\netstandard2.1\GateKeeper.dll
 C:\Code\Misc\GateKeeper\GateKeeper\obj\Release\netstandard2.1\GateKeeper.pdb
+C:\code\Misc\GateKeeper\GateKeeper\obj\Release\netstandard2.1\GateKeeper.csproj.CoreCompileInputs.cache

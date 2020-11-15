@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.0;netcoreapp3.0;netcoreapp3.1;netstandard2.0;netstandard2.1;net461</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;netstandard2.0;netstandard2.1;net461;net5.0</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <Authors>Joel Christner</Authors>
     <Description>Lightweight library for implementing roles-based access control (RBAC).  With Gatekeeper, you can define users, roles, resources, and permissions, and authorize requests.</Description>
     <Copyright>(c)2019 Joel Christner</Copyright>
@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="watsonorm.sqlite" Version="1.3.0.14" />
+    <PackageReference Include="watsonorm.sqlite" Version="1.3.0.17" />
   </ItemGroup>
 
 </Project>

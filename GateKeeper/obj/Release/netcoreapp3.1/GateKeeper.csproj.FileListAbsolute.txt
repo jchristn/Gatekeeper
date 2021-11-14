@@ -5,5 +5,6 @@ C:\Code\Misc\GateKeeper\GateKeeper\obj\Release\netcoreapp3.1\GateKeeper.Assembly
 C:\Code\Misc\GateKeeper\GateKeeper\obj\Release\netcoreapp3.1\GateKeeper.AssemblyInfo.cs
 C:\Code\Misc\GateKeeper\GateKeeper\obj\Release\netcoreapp3.1\GateKeeper.dll
 C:\Code\Misc\GateKeeper\GateKeeper\obj\Release\netcoreapp3.1\GateKeeper.pdb
-C:\code\Misc\GateKeeper\GateKeeper\obj\Release\netcoreapp3.1\GateKeeper.csprojAssemblyReference.cache
 C:\code\Misc\GateKeeper\GateKeeper\obj\Release\netcoreapp3.1\GateKeeper.csproj.CoreCompileInputs.cache
+C:\Code\Misc\GateKeeper\GateKeeper\obj\Release\netcoreapp3.1\GateKeeper.csproj.AssemblyReference.cache
+C:\Code\Misc\GateKeeper\GateKeeper\obj\Release\netcoreapp3.1\GateKeeper.GeneratedMSBuildEditorConfig.editorconfig

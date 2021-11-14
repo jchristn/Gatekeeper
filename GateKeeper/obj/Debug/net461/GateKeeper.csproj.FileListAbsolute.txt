@@ -1,4 +1,3 @@
-C:\Code\Misc\GateKeeper\GateKeeper\obj\Debug\net461\GateKeeper.csprojAssemblyReference.cache
 C:\Code\Misc\GateKeeper\GateKeeper\obj\Debug\net461\GateKeeper.AssemblyInfoInputs.cache
 C:\Code\Misc\GateKeeper\GateKeeper\obj\Debug\net461\GateKeeper.AssemblyInfo.cs
 C:\Code\Misc\GateKeeper\GateKeeper\bin\Debug\net461\GateKeeper.dll
@@ -6,15 +5,12 @@ C:\Code\Misc\GateKeeper\GateKeeper\bin\Debug\net461\GateKeeper.pdb
 C:\Code\Misc\GateKeeper\GateKeeper\bin\Debug\net461\DatabaseWrapper.Core.dll
 C:\Code\Misc\GateKeeper\GateKeeper\bin\Debug\net461\DatabaseWrapper.Sqlite.dll
 C:\Code\Misc\GateKeeper\GateKeeper\bin\Debug\net461\Microsoft.Data.Sqlite.dll
-C:\Code\Misc\GateKeeper\GateKeeper\bin\Debug\net461\Microsoft.Extensions.Configuration.dll
 C:\Code\Misc\GateKeeper\GateKeeper\bin\Debug\net461\Microsoft.Extensions.Configuration.Abstractions.dll
 C:\Code\Misc\GateKeeper\GateKeeper\bin\Debug\net461\Microsoft.Extensions.Configuration.Binder.dll
 C:\Code\Misc\GateKeeper\GateKeeper\bin\Debug\net461\Microsoft.Extensions.Primitives.dll
 C:\Code\Misc\GateKeeper\GateKeeper\bin\Debug\net461\Newtonsoft.Json.dll
 C:\Code\Misc\GateKeeper\GateKeeper\bin\Debug\net461\SQLitePCLRaw.batteries_v2.dll
-C:\Code\Misc\GateKeeper\GateKeeper\bin\Debug\net461\SQLitePCLRaw.nativelibrary.dll
 C:\Code\Misc\GateKeeper\GateKeeper\bin\Debug\net461\SQLitePCLRaw.core.dll
-C:\Code\Misc\GateKeeper\GateKeeper\bin\Debug\net461\SQLitePCLRaw.provider.dynamic_cdecl.dll
 C:\Code\Misc\GateKeeper\GateKeeper\bin\Debug\net461\System.Buffers.dll
 C:\Code\Misc\GateKeeper\GateKeeper\bin\Debug\net461\System.Memory.dll
 C:\Code\Misc\GateKeeper\GateKeeper\bin\Debug\net461\System.Numerics.Vectors.dll
@@ -120,3 +116,7 @@ C:\Code\Misc\GateKeeper\GateKeeper\bin\Debug\net461\System.Xml.XPath.XDocument.d
 C:\Code\Misc\GateKeeper\GateKeeper\obj\Debug\net461\GateKeeper.csproj.CopyComplete
 C:\Code\Misc\GateKeeper\GateKeeper\obj\Debug\net461\GateKeeper.dll
 C:\Code\Misc\GateKeeper\GateKeeper\obj\Debug\net461\GateKeeper.pdb
+C:\Code\Misc\GateKeeper\GateKeeper\bin\Debug\net461\SQLitePCLRaw.provider.e_sqlite3.dll
+C:\Code\Misc\GateKeeper\GateKeeper\obj\Debug\net461\GateKeeper.csproj.AssemblyReference.cache
+C:\Code\Misc\GateKeeper\GateKeeper\obj\Debug\net461\GateKeeper.GeneratedMSBuildEditorConfig.editorconfig
+C:\Code\Misc\GateKeeper\GateKeeper\obj\Debug\net461\GateKeeper.csproj.CoreCompileInputs.cache

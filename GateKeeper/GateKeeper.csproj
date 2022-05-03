@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1;netstandard2.1;net461;net5.0;net6.0</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.0.0</Version>
+    <Version>2.0.1</Version>
     <Authors>Joel Christner</Authors>
     <Description>Lightweight library for implementing roles-based access control (RBAC).  With Gatekeeper, you can define users, roles, resources, and permissions, and authorize requests.</Description>
     <Copyright>(c)2022 Joel Christner</Copyright>
@@ -14,10 +14,6 @@
     <PackageReleaseNotes>Breaking changes, major refactor</PackageReleaseNotes>
     <ApplicationIcon>assets\icon.ico</ApplicationIcon>
     <PackageIcon>icon.png</PackageIcon>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.0|AnyCPU'">
-    <DocumentationFile>GateKeeper.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -48,6 +44,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  <Pack>True</Pack>
 	  <PackagePath>\</PackagePath>
+    </None>
+    <None Include="GateKeeper.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

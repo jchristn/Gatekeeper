@@ -7,7 +7,7 @@
   "targets": {
     ".NETStandard,Version=v2.1": {},
     ".NETStandard,Version=v2.1/": {
-      "GateKeeper/2.0.0": {
+      "GateKeeper/2.0.1": {
         "dependencies": {
           "WatsonORM.Sqlite": "2.0.0.1"
         },
@@ -206,7 +206,7 @@
     }
   },
   "libraries": {
-    "GateKeeper/2.0.0": {
+    "GateKeeper/2.0.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

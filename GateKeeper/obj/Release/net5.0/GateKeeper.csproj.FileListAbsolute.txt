@@ -25,3 +25,4 @@ C:\Code\Misc\GateKeeper-2.0\GateKeeper\obj\Release\net5.0\GateKeeper.dll
 C:\Code\Misc\GateKeeper-2.0\GateKeeper\obj\Release\net5.0\refint\GateKeeper.dll
 C:\Code\Misc\GateKeeper-2.0\GateKeeper\obj\Release\net5.0\GateKeeper.pdb
 C:\Code\Misc\GateKeeper-2.0\GateKeeper\obj\Release\net5.0\ref\GateKeeper.dll
+C:\Code\Misc\GateKeeper-2.0\GateKeeper\bin\Release\net5.0\GateKeeper.xml

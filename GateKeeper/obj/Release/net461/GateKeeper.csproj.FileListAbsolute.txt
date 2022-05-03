@@ -245,3 +245,4 @@ C:\Code\Misc\GateKeeper-2.0\GateKeeper\obj\Release\net461\GateKeeper.csproj.Core
 C:\Code\Misc\GateKeeper-2.0\GateKeeper\obj\Release\net461\GateKeeper.csproj.CopyComplete
 C:\Code\Misc\GateKeeper-2.0\GateKeeper\obj\Release\net461\GateKeeper.dll
 C:\Code\Misc\GateKeeper-2.0\GateKeeper\obj\Release\net461\GateKeeper.pdb
+C:\Code\Misc\GateKeeper-2.0\GateKeeper\bin\Release\net461\GateKeeper.xml

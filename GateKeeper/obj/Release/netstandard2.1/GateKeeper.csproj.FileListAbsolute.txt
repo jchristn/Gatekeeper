@@ -21,3 +21,4 @@ C:\Code\Misc\GateKeeper-2.0\GateKeeper\obj\Release\netstandard2.1\GateKeeper.Ass
 C:\Code\Misc\GateKeeper-2.0\GateKeeper\obj\Release\netstandard2.1\GateKeeper.csproj.CoreCompileInputs.cache
 C:\Code\Misc\GateKeeper-2.0\GateKeeper\obj\Release\netstandard2.1\GateKeeper.dll
 C:\Code\Misc\GateKeeper-2.0\GateKeeper\obj\Release\netstandard2.1\GateKeeper.pdb
+C:\Code\Misc\GateKeeper-2.0\GateKeeper\bin\Release\netstandard2.1\GateKeeper.xml

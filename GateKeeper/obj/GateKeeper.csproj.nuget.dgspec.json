@@ -1,41 +1,37 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Code\\Misc\\GateKeeper\\GateKeeper\\GateKeeper.csproj": {}
+    "C:\\Code\\Misc\\GateKeeper-2.0\\GateKeeper\\GateKeeper.csproj": {}
   },
   "projects": {
-    "C:\\Code\\Misc\\GateKeeper\\GateKeeper\\GateKeeper.csproj": {
-      "version": "1.1.1.3",
+    "C:\\Code\\Misc\\GateKeeper-2.0\\GateKeeper\\GateKeeper.csproj": {
+      "version": "2.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Code\\Misc\\GateKeeper\\GateKeeper\\GateKeeper.csproj",
+        "projectUniqueName": "C:\\Code\\Misc\\GateKeeper-2.0\\GateKeeper\\GateKeeper.csproj",
         "projectName": "GateKeeper",
-        "projectPath": "C:\\Code\\Misc\\GateKeeper\\GateKeeper\\GateKeeper.csproj",
+        "projectPath": "C:\\Code\\Misc\\GateKeeper-2.0\\GateKeeper\\GateKeeper.csproj",
         "packagesPath": "C:\\Users\\joelc\\.nuget\\packages\\",
-        "outputPath": "C:\\Code\\Misc\\GateKeeper\\GateKeeper\\obj\\",
+        "outputPath": "C:\\Code\\Misc\\GateKeeper-2.0\\GateKeeper\\obj\\",
         "projectStyle": "PackageReference",
         "crossTargeting": true,
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
           "C:\\Users\\joelc\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net461",
           "net5.0",
           "net6.0",
           "netcoreapp3.1",
-          "netstandard2.0",
           "netstandard2.1"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {},
-          "https://nuget.pkg.github.com/jchristn/index.json": {}
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
@@ -52,10 +48,6 @@
           },
           "net461": {
             "targetAlias": "net461",
-            "projectReferences": {}
-          },
-          "netstandard2.0": {
-            "targetAlias": "netstandard2.0",
             "projectReferences": {}
           },
           "netstandard2.1": {
@@ -75,7 +67,7 @@
           "dependencies": {
             "watsonorm.sqlite": {
               "target": "Package",
-              "version": "[1.3.5.3, )"
+              "version": "[2.0.0.1, )"
             }
           },
           "imports": [
@@ -93,14 +85,14 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
         },
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
             "watsonorm.sqlite": {
               "target": "Package",
-              "version": "[1.3.5.3, )"
+              "version": "[2.0.0.1, )"
             }
           },
           "imports": [
@@ -118,14 +110,14 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
         },
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
             "watsonorm.sqlite": {
               "target": "Package",
-              "version": "[1.3.5.3, )"
+              "version": "[2.0.0.1, )"
             }
           },
           "imports": [
@@ -143,50 +135,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
         },
         "net461": {
           "targetAlias": "net461",
           "dependencies": {
             "watsonorm.sqlite": {
               "target": "Package",
-              "version": "[1.3.5.3, )"
+              "version": "[2.0.0.1, )"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
-        },
-        "netstandard2.0": {
-          "targetAlias": "netstandard2.0",
-          "dependencies": {
-            "NETStandard.Library": {
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[2.0.3, )",
-              "autoReferenced": true
-            },
-            "watsonorm.sqlite": {
-              "target": "Package",
-              "version": "[1.3.5.3, )"
-            }
-          },
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
         },
         "netstandard2.1": {
           "targetAlias": "netstandard2.1",
           "dependencies": {
             "watsonorm.sqlite": {
               "target": "Package",
-              "version": "[1.3.5.3, )"
+              "version": "[2.0.0.1, )"
             }
           },
           "imports": [
@@ -204,7 +170,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }

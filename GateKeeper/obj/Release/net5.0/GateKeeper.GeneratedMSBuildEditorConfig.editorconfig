@@ -7,4 +7,4 @@ build_property.InvariantGlobalization =
 build_property.PlatformNeutralAssembly = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = GateKeeper
-build_property.ProjectDir = C:\Code\Misc\GateKeeper\GateKeeper\
+build_property.ProjectDir = C:\Code\Misc\GateKeeper-2.0\GateKeeper\

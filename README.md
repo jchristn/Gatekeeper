@@ -1,3 +1,5 @@
+<img src="https://github.com/jchristn/Gatekeeper/raw/master/assets/icon.png" width="100" height="100">
+
 # GateKeeper Roles-Based Access Control
 
 [![NuGet Version](https://img.shields.io/nuget/v/GateKeeper.svg?style=flat)](https://www.nuget.org/packages/GateKeeper/) [![NuGet](https://img.shields.io/nuget/dt/GateKeeper.svg)](https://www.nuget.org/packages/GateKeeper) 

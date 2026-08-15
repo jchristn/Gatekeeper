@@ -1,0 +1,56 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net8.0;net10.0</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>2.1.0</Version>
+    <Authors>Joel Christner</Authors>
+    <Description>Lightweight library for implementing roles-based access control (RBAC). With GateKeeper, you can define users, roles, resources, and permissions, and authorize requests.</Description>
+    <Copyright>(c)2025 Joel Christner</Copyright>
+    <PackageProjectUrl>https://github.com/jchristn/Gatekeeper</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/jchristn/Gatekeeper</RepositoryUrl>
+    <RepositoryType>Github</RepositoryType>
+    <PackageTags>rbac roles based access control authorize deny acl</PackageTags>
+    <PackageReleaseNotes>Retargeted to netstandard2.0, netstandard2.1, net8.0, net10.0. Updated dependencies.</PackageReleaseNotes>
+    <ApplicationIcon>assets\icon.ico</ApplicationIcon>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="assets\icon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LICENSE.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WatsonORM.Sqlite" Version="3.0.14" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="assets\icon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="assets\icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="LICENSE.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="GateKeeper.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+
+</Project>

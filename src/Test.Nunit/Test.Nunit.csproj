@@ -1,11 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
-    <RootNamespace>GateKeeper.Test.Automated</RootNamespace>
+    <RootNamespace>GateKeeper.Test.Nunit</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,7 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Touchstone.Cli" Version="0.1.12" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="NUnit" Version="4.3.2" />
+    <PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
+    <PackageReference Include="Touchstone.NunitAdapter" Version="0.1.12" />
   </ItemGroup>
 
 </Project>

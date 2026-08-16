@@ -37,6 +37,7 @@ namespace GateKeeper.Test.Shared
                     AuthorizationSuites.DefaultPermitSuite(),
                     AuthorizationSuites.AuthorizationEventSuite(),
                     AuthorizationSuites.CascadeDeleteSuite(),
+                    AuthorizationSuites.SqlInjectionSuite(),
 
                     ModelSuites.UserModelSuite(),
                     ModelSuites.RoleModelSuite(),

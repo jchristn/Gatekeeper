@@ -3,7 +3,9 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1;net8.0;net10.0</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.1.0</Version>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Version>2.1.1</Version>
     <Authors>Joel Christner</Authors>
     <Description>Lightweight library for implementing roles-based access control (RBAC). With GateKeeper, you can define users, roles, resources, and permissions, and authorize requests.</Description>
     <Copyright>(c)2025 Joel Christner</Copyright>
@@ -11,7 +13,7 @@
     <RepositoryUrl>https://github.com/jchristn/Gatekeeper</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
     <PackageTags>rbac roles based access control authorize deny acl</PackageTags>
-    <PackageReleaseNotes>Retargeted to netstandard2.0, netstandard2.1, net8.0, net10.0. Updated dependencies.</PackageReleaseNotes>
+    <PackageReleaseNotes>Updated dependencies and remediated a transitive SQLitePCLRaw vulnerability (GHSA-2m69-gcr7-jv3q) by pinning the SQLitePCLRaw native provider to the 3.x line.</PackageReleaseNotes>
     <ApplicationIcon>assets\icon.ico</ApplicationIcon>
     <PackageIcon>icon.png</PackageIcon>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -29,6 +31,10 @@
 
   <ItemGroup>
     <PackageReference Include="WatsonORM.Sqlite" Version="3.0.14" />
+    <!-- Pin SQLitePCLRaw to the 3.x line to remediate GHSA-2m69-gcr7-jv3q,
+         a high-severity vulnerability in the native SQLitePCLRaw.lib.e_sqlite3 2.1.x
+         binaries pulled in transitively via WatsonORM.Sqlite -> Microsoft.Data.Sqlite. -->
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.5" />
   </ItemGroup>
 
   <ItemGroup>

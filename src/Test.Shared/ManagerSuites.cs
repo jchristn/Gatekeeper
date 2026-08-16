@@ -807,6 +807,68 @@ namespace GateKeeper.Test.Shared
                             return Task.CompletedTask;
                         }),
 
+                    new TestCaseDescriptor(suiteId, "RemoveUserRolesByUserClearsOnlyThatUser", "RemoveUserRolesByUser removes every mapping for the user and leaves others intact",
+                        ct =>
+                        {
+                            using GateKeeperScope scope = new GateKeeperScope();
+                            User alice = scope.Server.Users.Add(new User("alice"));
+                            User bob = scope.Server.Users.Add(new User("bob"));
+                            Role r1 = scope.Server.Roles.Add(new Role("admin"));
+                            Role r2 = scope.Server.Roles.Add(new Role("viewer"));
+                            scope.Server.UserRoles.Add(alice, r1);
+                            scope.Server.UserRoles.Add(alice, r2);
+                            scope.Server.UserRoles.Add(bob, r1);
+                            scope.Server.UserRoles.RemoveUserRolesByUser(alice);
+                            TestAssert.Equal(0, scope.Server.UserRoles.GetByUser(alice).Count, "alice mappings cleared");
+                            TestAssert.Equal(1, scope.Server.UserRoles.GetByUser(bob).Count, "bob mapping intact");
+                            return Task.CompletedTask;
+                        }),
+
+                    new TestCaseDescriptor(suiteId, "RemoveUserRolesByRoleClearsOnlyThatRole", "RemoveUserRolesByRole removes every mapping for the role and leaves others intact",
+                        ct =>
+                        {
+                            using GateKeeperScope scope = new GateKeeperScope();
+                            User alice = scope.Server.Users.Add(new User("alice"));
+                            User bob = scope.Server.Users.Add(new User("bob"));
+                            Role admin = scope.Server.Roles.Add(new Role("admin"));
+                            Role viewer = scope.Server.Roles.Add(new Role("viewer"));
+                            scope.Server.UserRoles.Add(alice, admin);
+                            scope.Server.UserRoles.Add(bob, admin);
+                            scope.Server.UserRoles.Add(alice, viewer);
+                            scope.Server.UserRoles.RemoveUserRolesByRole(admin);
+                            TestAssert.Equal(0, scope.Server.UserRoles.GetByRole(admin).Count, "admin mappings cleared");
+                            TestAssert.Equal(1, scope.Server.UserRoles.GetByRole(viewer).Count, "viewer mapping intact");
+                            return Task.CompletedTask;
+                        }),
+
+                    new TestCaseDescriptor(suiteId, "RemoveUserRolesByUserNullThrows", "RemoveUserRolesByUser throws ArgumentNullException on null",
+                        ct =>
+                        {
+                            using GateKeeperScope scope = new GateKeeperScope();
+                            TestAssert.Throws<ArgumentNullException>(
+                                () => scope.Server.UserRoles.RemoveUserRolesByUser(null!), "RemoveUserRolesByUser null");
+                            return Task.CompletedTask;
+                        }),
+
+                    new TestCaseDescriptor(suiteId, "RemoveUserRolesByRoleNullThrows", "RemoveUserRolesByRole throws ArgumentNullException on null",
+                        ct =>
+                        {
+                            using GateKeeperScope scope = new GateKeeperScope();
+                            TestAssert.Throws<ArgumentNullException>(
+                                () => scope.Server.UserRoles.RemoveUserRolesByRole(null!), "RemoveUserRolesByRole null");
+                            return Task.CompletedTask;
+                        }),
+
+                    new TestCaseDescriptor(suiteId, "ExistsNullRoleThrows", "Exists throws ArgumentNullException on a null role",
+                        ct =>
+                        {
+                            using GateKeeperScope scope = new GateKeeperScope();
+                            User u = scope.Server.Users.Add(new User("alice"));
+                            TestAssert.Throws<ArgumentNullException>(
+                                () => scope.Server.UserRoles.Exists(u, null!), "Exists null role");
+                            return Task.CompletedTask;
+                        }),
+
                     new TestCaseDescriptor(suiteId, "ExistsNullUserThrows", "Exists throws ArgumentNullException on a null user",
                         ct =>
                         {

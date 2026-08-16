@@ -377,6 +377,76 @@ namespace GateKeeper.Test.Shared
 
         #endregion
 
+        #region SQL-Injection
+
+        /// <summary>
+        /// SQL injection resistance for the raw authorization query. Every request field is
+        /// run through <c>Helpers.Sanitize</c> before it is concatenated into the query, so
+        /// injected quotes, comment markers, and statement terminators must be neutralized:
+        /// a malicious request must never authorize, and a destructive payload must never
+        /// alter the schema or data.
+        /// </summary>
+        /// <returns>Injection suite.</returns>
+        public static TestSuiteDescriptor SqlInjectionSuite()
+        {
+            const string suiteId = "Injection";
+            return new TestSuiteDescriptor(
+                suiteId: suiteId,
+                displayName: "Authorization - SQL Injection Resistance",
+                cases: new List<TestCaseDescriptor>
+                {
+                    new TestCaseDescriptor(suiteId, "TautologyUsernameDenied", "A tautology injected into the username does not authorize",
+                        ct =>
+                        {
+                            using GateKeeperScope scope = new GateKeeperScope();
+                            TestData.Standard(scope.Server);
+                            TestAssert.False(scope.Server.Authorize("alice' OR '1'='1", "create", "documents"), "tautology username denied");
+                            return Task.CompletedTask;
+                        }),
+
+                    new TestCaseDescriptor(suiteId, "CommentTerminatorUsernameDenied", "A comment-terminated username injection does not authorize",
+                        ct =>
+                        {
+                            using GateKeeperScope scope = new GateKeeperScope();
+                            TestData.Standard(scope.Server);
+                            TestAssert.False(scope.Server.Authorize("alice'--", "create", "documents"), "comment injection denied");
+                            return Task.CompletedTask;
+                        }),
+
+                    new TestCaseDescriptor(suiteId, "TautologyResourceDenied", "A tautology injected into the resource does not authorize",
+                        ct =>
+                        {
+                            using GateKeeperScope scope = new GateKeeperScope();
+                            TestData.Standard(scope.Server);
+                            TestAssert.False(scope.Server.Authorize("alice", "create", "documents' OR '1'='1"), "tautology resource denied");
+                            return Task.CompletedTask;
+                        }),
+
+                    new TestCaseDescriptor(suiteId, "TautologyOperationDenied", "A tautology injected into the operation does not authorize",
+                        ct =>
+                        {
+                            using GateKeeperScope scope = new GateKeeperScope();
+                            TestData.Standard(scope.Server);
+                            TestAssert.False(scope.Server.Authorize("alice", "create' OR '1'='1", "documents"), "tautology operation denied");
+                            return Task.CompletedTask;
+                        }),
+
+                    new TestCaseDescriptor(suiteId, "DropTableInjectionLeavesSchemaIntact", "A DROP TABLE payload is neutralized and legitimate authorization still works",
+                        ct =>
+                        {
+                            using GateKeeperScope scope = new GateKeeperScope();
+                            TestData.Standard(scope.Server);
+                            // Attempt a destructive injection; sanitization must neutralize it into a harmless literal.
+                            TestAssert.False(scope.Server.Authorize("alice'; DROP TABLE users;--", "create", "documents"), "drop-table injection denied");
+                            // The schema and data must survive: a legitimate request still authorizes.
+                            TestAssert.True(scope.Server.Authorize("alice", "create", "documents"), "legitimate auth intact after injection attempt");
+                            return Task.CompletedTask;
+                        }),
+                });
+        }
+
+        #endregion
+
         #region Private-Methods
 
         private static async Task<AuthorizationEventArgs> CaptureEventAsync(

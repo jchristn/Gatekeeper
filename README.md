@@ -243,6 +243,10 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 See [CHANGELOG.md](CHANGELOG.md) for a detailed version history.
 
+### v2.2.1
+
+- Dependency maintenance: updated test dependencies (Touchstone 0.2.0, NUnit 5.0.0, NUnit3TestAdapter 6.3.0, Microsoft.NET.Test.Sdk 18.10.1); no library changes
+
 ### v2.2.0
 
 - Built-in metrics and traces through the BCL `Meter` and `ActivitySource` named `GateKeeper` (see [TELEMETRY.md](TELEMETRY.md))

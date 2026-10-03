@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Watson.ORM.Core;
-using Watson.ORM.Sqlite;
-using DatabaseWrapper.Core;
-
-namespace GateKeeper
+﻿namespace GateKeeper
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Reflection;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    using DatabaseWrapper.Core;
+    using Watson.ORM.Core;
+    using Watson.ORM.Sqlite;
+
     /// <summary>
     /// GateKeeper roles-based access control server.
     /// </summary>

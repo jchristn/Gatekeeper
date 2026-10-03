@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GateKeeper;
-
-namespace GatekeeperConsole
+﻿namespace GatekeeperConsole
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    using GateKeeper;
+
     class Program
     {
         static string _Filename = "gatekeeper.db";

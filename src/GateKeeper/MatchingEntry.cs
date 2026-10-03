@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Text;
-
-namespace GateKeeper
+﻿namespace GateKeeper
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Text;
+
     /// <summary>
     /// Entry that matched the supplied authorization request.
     /// </summary>

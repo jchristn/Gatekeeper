@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GateKeeper
+﻿namespace GateKeeper
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
     internal static class Helpers
     {
         internal static string Sanitize(string val)

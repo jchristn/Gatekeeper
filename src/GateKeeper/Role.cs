@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Watson.ORM.Core;
-
-namespace GateKeeper
+﻿namespace GateKeeper
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    using Watson.ORM.Core;
+
     /// <summary>
     /// Role, a categorization or grouping of users.
     /// </summary>

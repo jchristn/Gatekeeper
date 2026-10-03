@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Watson.ORM.Sqlite;
-using Watson.ORM.Core;
-using ExpressionTree;
-
-namespace GateKeeper
+﻿namespace GateKeeper
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    using ExpressionTree;
+    using Watson.ORM.Core;
+    using Watson.ORM.Sqlite;
+
     /// <summary>
     /// User manager.
     /// </summary>

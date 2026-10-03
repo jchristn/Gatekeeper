@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Watson.ORM.Core;
-
-namespace GateKeeper
+﻿namespace GateKeeper
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    using Watson.ORM.Core;
+
     /// <summary>
     /// Resource, an entity against which operations are attempted.
     /// </summary>

@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Watson.ORM.Core;
-
-namespace GateKeeper
+﻿namespace GateKeeper
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    using Watson.ORM.Core;
+
     /// <summary>
     /// User, i.e. an entity that is assigned one or more roles and attempts to perform an operation against a resource.
     /// </summary>

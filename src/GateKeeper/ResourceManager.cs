@@ -53,12 +53,15 @@ namespace GateKeeper
         /// <returns>Object.</returns>
         public Resource Add(Resource resource)
         {
-            if (resource == null) throw new ArgumentNullException(nameof(resource));
+            return GateKeeperTelemetry.RunManagement(GateKeeperTelemetryNames.EntityResource, GateKeeperTelemetryNames.OperationAdd, () =>
+            {
+                if (resource == null) throw new ArgumentNullException(nameof(resource));
 
-            if (ExistsByName(resource.Name))
-                throw new ArgumentException("An item with the same key has already been added.");
+                if (ExistsByName(resource.Name))
+                    throw new ArgumentException("An item with the same key has already been added.");
 
-            return _ORM.Insert<Resource>(resource);
+                return GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationInsert, GateKeeperTelemetryNames.DbCollectionResources, () => _ORM.Insert<Resource>(resource));
+            });
         }
 
         /// <summary>
@@ -67,14 +70,17 @@ namespace GateKeeper
         /// <param name="resource">Resource.</param>
         public void Remove(Resource resource)
         {
-            if (resource == null) throw new ArgumentNullException(nameof(resource));
+            GateKeeperTelemetry.RunManagement(GateKeeperTelemetryNames.EntityResource, GateKeeperTelemetryNames.OperationRemove, () =>
+            {
+                if (resource == null) throw new ArgumentNullException(nameof(resource));
 
-            if (!ExistsByName(resource.Name))
-                throw new KeyNotFoundException("The specified key was not found.");
+                if (!ExistsByName(resource.Name))
+                    throw new KeyNotFoundException("The specified key was not found.");
 
-            Permissions.RemoveResourcePermissions(resource);
+                Permissions.RemoveResourcePermissions(resource);
 
-            _ORM.Delete<Resource>(resource);
+                GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationDelete, GateKeeperTelemetryNames.DbCollectionResources, () => _ORM.Delete<Resource>(resource));
+            });
         }
 
         /// <summary>
@@ -83,18 +89,21 @@ namespace GateKeeper
         /// <param name="name">Name.</param>
         public void RemoveByName(string name)
         {
-            if (String.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
+            GateKeeperTelemetry.RunManagement(GateKeeperTelemetryNames.EntityResource, GateKeeperTelemetryNames.OperationRemoveByName, () =>
+            {
+                if (String.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
 
-            if (!ExistsByName(name))
-                throw new KeyNotFoundException("The specified key was not found.");
+                if (!ExistsByName(name))
+                    throw new KeyNotFoundException("The specified key was not found.");
 
-            Resource r = GetFirstByName(name);
-            if (r == null)
-                throw new KeyNotFoundException("The specified key was not found.");
+                Resource r = GetFirstByName(name);
+                if (r == null)
+                    throw new KeyNotFoundException("The specified key was not found.");
 
-            Permissions.RemoveResourcePermissions(r);
+                Permissions.RemoveResourcePermissions(r);
 
-            _ORM.Delete<Resource>(r);
+                GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationDelete, GateKeeperTelemetryNames.DbCollectionResources, () => _ORM.Delete<Resource>(r));
+            });
         }
 
         /// <summary>
@@ -103,8 +112,11 @@ namespace GateKeeper
         /// <returns>List.</returns>
         public List<Resource> All()
         {
-            Expr e = new Expr(_ORM.GetColumnName<Resource>(nameof(Resource.Id)), OperatorEnum.GreaterThan, 0);
-            return _ORM.SelectMany<Resource>(e);
+            return GateKeeperTelemetry.RunManagement(GateKeeperTelemetryNames.EntityResource, GateKeeperTelemetryNames.OperationAll, () =>
+            {
+                Expr e = new Expr(_ORM.GetColumnName<Resource>(nameof(Resource.Id)), OperatorEnum.GreaterThan, 0);
+                return GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationSelect, GateKeeperTelemetryNames.DbCollectionResources, () => _ORM.SelectMany<Resource>(e));
+            });
         }
 
         /// <summary>
@@ -114,10 +126,13 @@ namespace GateKeeper
         /// <returns>Object.</returns>
         public Resource GetFirstByName(string name)
         {
-            if (String.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
-            Expr e = new Expr(_ORM.GetColumnName<Resource>(nameof(Resource.Name)), OperatorEnum.Equals, name);
-            Resource r = _ORM.SelectFirst<Resource>(e);
-            return r;
+            return GateKeeperTelemetry.RunManagement(GateKeeperTelemetryNames.EntityResource, GateKeeperTelemetryNames.OperationGetByName, () =>
+            {
+                if (String.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
+                Expr e = new Expr(_ORM.GetColumnName<Resource>(nameof(Resource.Name)), OperatorEnum.Equals, name);
+                Resource r = GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationSelect, GateKeeperTelemetryNames.DbCollectionResources, () => _ORM.SelectFirst<Resource>(e));
+                return r;
+            });
         }
 
         /// <summary>
@@ -127,9 +142,12 @@ namespace GateKeeper
         /// <returns>True if exists.</returns>
         public bool ExistsByName(string name)
         {
-            if (String.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
-            Expr e = new Expr(_ORM.GetColumnName<Resource>(nameof(Resource.Name)), OperatorEnum.Equals, name);
-            return _ORM.Exists<Resource>(e);
+            return GateKeeperTelemetry.RunManagement(GateKeeperTelemetryNames.EntityResource, GateKeeperTelemetryNames.OperationExistsByName, () =>
+            {
+                if (String.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
+                Expr e = new Expr(_ORM.GetColumnName<Resource>(nameof(Resource.Name)), OperatorEnum.Equals, name);
+                return GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationExists, GateKeeperTelemetryNames.DbCollectionResources, () => _ORM.Exists<Resource>(e));
+            });
         }
 
         #endregion

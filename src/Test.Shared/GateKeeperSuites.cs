@@ -45,6 +45,8 @@ namespace GateKeeper.Test.Shared
                     ModelSuites.PermissionModelSuite(),
                     ModelSuites.UserRoleModelSuite(),
                     ModelSuites.SanitizationSuite(),
+
+                    TelemetrySuites.TelemetrySuite(),
                 };
             }
         }

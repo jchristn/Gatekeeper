@@ -19,6 +19,7 @@ GateKeeper provides a simple yet powerful way to implement authorization in your
 - Event-driven authorization with detailed matching information
 - Automatic cleanup of related records when deleting entities
 - Input sanitization for security
+- Built-in OpenTelemetry-compatible metrics and traces (no dependencies, near-zero cost when unobserved)
 - Cross-platform support
 
 ## Supported Frameworks
@@ -145,6 +146,22 @@ server.AuthorizationEvent += (sender, args) =>
 };
 ```
 
+## Observability
+
+GateKeeper emits metrics and traces through the .NET base class library, using a `Meter` and an `ActivitySource` both named `GateKeeper`. It takes no dependency on OpenTelemetry or any exporter. Subscribe from your host to collect authorization latency (end to end and per stage), allow/deny/default decisions, SQLite call latency and failures, `AuthorizationEvent` handler failures and backlog, management operation outcomes, and build info:
+
+```csharp
+// Radiant
+settings.Sources.AddMeter("GateKeeper");
+settings.Sources.AddActivitySource("GateKeeper");
+
+// or the OpenTelemetry SDK
+Sdk.CreateMeterProviderBuilder().AddMeter("GateKeeper").AddOtlpExporter().Build();
+Sdk.CreateTracerProviderBuilder().AddSource("GateKeeper").AddOtlpExporter().Build();
+```
+
+When `Authorize` runs inside a traced request, such as a Watson handler, its `GateKeeper Authorize` span nests under the request span. Usernames and query text are never recorded. See [TELEMETRY.md](TELEMETRY.md) for the full metric and span catalog, PromQL, alerts, and a dashboard layout.
+
 ## Sample Application
 
 The `GateKeeperConsole` project provides an interactive console application for testing GateKeeper functionality. Run it to:
@@ -160,11 +177,12 @@ dotnet run
 
 ## Automated Tests
 
-The `Test.Automated` project contains comprehensive tests covering all library functionality:
+All test logic lives in `Test.Shared` (Touchstone suites) and runs identically under three hosts:
 
 ```bash
-cd src/Test.Automated
-dotnet run
+cd src
+dotnet run --project Test.Automated -f net10.0   # console runner
+dotnet test                                       # xUnit and NUnit hosts
 ```
 
 The test suite validates:
@@ -175,6 +193,7 @@ The test suite validates:
 - Authorization events
 - Cascade deletes
 - Input validation
+- Telemetry emission (metrics and spans for every operation, failure paths, context propagation, and safety with no listener or throwing listeners)
 
 ## Project Structure
 
@@ -183,9 +202,13 @@ GateKeeper/
 ├── src/
 │   ├── GateKeeper/           # Main library
 │   ├── GateKeeperConsole/    # Interactive console demo
-│   └── Test.Automated/       # Automated test suite
+│   ├── Test.Shared/          # Shared Touchstone test suites
+│   ├── Test.Automated/       # Console test runner
+│   ├── Test.Xunit/           # xUnit host
+│   └── Test.Nunit/           # NUnit host
 ├── assets/                   # Icons and images
 ├── README.md
+├── TELEMETRY.md              # Metrics and spans catalog
 └── LICENSE.md
 ```
 
@@ -219,6 +242,11 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## Version History
 
 See [CHANGELOG.md](CHANGELOG.md) for a detailed version history.
+
+### v2.2.0
+
+- Built-in metrics and traces through the BCL `Meter` and `ActivitySource` named `GateKeeper` (see [TELEMETRY.md](TELEMETRY.md))
+- `Authorize` no longer writes its SQL query to the console
 
 ### v2.1.0
 

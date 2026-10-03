@@ -58,16 +58,19 @@ namespace GateKeeper
         /// <returns>Object.</returns>
         public UserRole Add(User user, Role role)
         {
-            if (user == null) throw new ArgumentNullException(nameof(user));
-            if (role == null) throw new ArgumentNullException(nameof(role));
+            return GateKeeperTelemetry.RunManagement(GateKeeperTelemetryNames.EntityUserRole, GateKeeperTelemetryNames.OperationAdd, () =>
+            {
+                if (user == null) throw new ArgumentNullException(nameof(user));
+                if (role == null) throw new ArgumentNullException(nameof(role));
 
-            if (!_Users.ExistsByName(user.Name)) throw new KeyNotFoundException("The specified user was not found.");
-            if (!_Roles.ExistsByName(role.Name)) throw new KeyNotFoundException("The specified role was not found.");
+                if (!_Users.ExistsByName(user.Name)) throw new KeyNotFoundException("The specified user was not found.");
+                if (!_Roles.ExistsByName(role.Name)) throw new KeyNotFoundException("The specified role was not found.");
 
-            if (Exists(user, role))
-                throw new ArgumentException("An item with the same keys has already been added.");
+                if (Exists(user, role))
+                    throw new ArgumentException("An item with the same keys has already been added.");
 
-            return _ORM.Insert<UserRole>(new UserRole(user, role));
+                return GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationInsert, GateKeeperTelemetryNames.DbCollectionUserRoles, () => _ORM.Insert<UserRole>(new UserRole(user, role)));
+            });
         }
 
         /// <summary>
@@ -77,17 +80,20 @@ namespace GateKeeper
         /// <param name="role">Role.</param>
         public void Remove(User user, Role role)
         {
-            if (user == null) throw new ArgumentNullException(nameof(user));
-            if (role == null) throw new ArgumentNullException(nameof(role));
+            GateKeeperTelemetry.RunManagement(GateKeeperTelemetryNames.EntityUserRole, GateKeeperTelemetryNames.OperationRemove, () =>
+            {
+                if (user == null) throw new ArgumentNullException(nameof(user));
+                if (role == null) throw new ArgumentNullException(nameof(role));
 
-            if (!_Users.ExistsByName(user.Name)) throw new KeyNotFoundException("The specified user was not found.");
-            if (!_Roles.ExistsByName(role.Name)) throw new KeyNotFoundException("The specified role was not found.");
+                if (!_Users.ExistsByName(user.Name)) throw new KeyNotFoundException("The specified user was not found.");
+                if (!_Roles.ExistsByName(role.Name)) throw new KeyNotFoundException("The specified role was not found.");
 
-            UserRole ur = GetByUserRole(user, role);
-            if (ur == null)
-                throw new KeyNotFoundException("The specified user role was not found.");
+                UserRole ur = GetByUserRole(user, role);
+                if (ur == null)
+                    throw new KeyNotFoundException("The specified user role was not found.");
 
-            _ORM.Delete<UserRole>(ur);
+                GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationDelete, GateKeeperTelemetryNames.DbCollectionUserRoles, () => _ORM.Delete<UserRole>(ur));
+            });
         }
 
         /// <summary>
@@ -96,9 +102,12 @@ namespace GateKeeper
         /// <param name="user">User.</param>
         public void RemoveUserRolesByUser(User user)
         {
-            if (user == null) throw new ArgumentNullException(nameof(user));
-            Expr e = new Expr(_ORM.GetColumnName<UserRole>(nameof(UserRole.UserGUID)), OperatorEnum.Equals, user.GUID);
-            _ORM.DeleteMany<UserRole>(e);
+            GateKeeperTelemetry.RunManagement(GateKeeperTelemetryNames.EntityUserRole, GateKeeperTelemetryNames.OperationRemoveByUser, () =>
+            {
+                if (user == null) throw new ArgumentNullException(nameof(user));
+                Expr e = new Expr(_ORM.GetColumnName<UserRole>(nameof(UserRole.UserGUID)), OperatorEnum.Equals, user.GUID);
+                GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationDelete, GateKeeperTelemetryNames.DbCollectionUserRoles, () => _ORM.DeleteMany<UserRole>(e));
+            });
         }
 
         /// <summary>
@@ -107,9 +116,12 @@ namespace GateKeeper
         /// <param name="role">Role.</param>
         public void RemoveUserRolesByRole(Role role)
         {
-            if (role == null) throw new ArgumentNullException(nameof(role));
-            Expr e = new Expr(_ORM.GetColumnName<UserRole>(nameof(UserRole.RoleGUID)), OperatorEnum.Equals, role.GUID);
-            _ORM.DeleteMany<UserRole>(e);
+            GateKeeperTelemetry.RunManagement(GateKeeperTelemetryNames.EntityUserRole, GateKeeperTelemetryNames.OperationRemoveByRole, () =>
+            {
+                if (role == null) throw new ArgumentNullException(nameof(role));
+                Expr e = new Expr(_ORM.GetColumnName<UserRole>(nameof(UserRole.RoleGUID)), OperatorEnum.Equals, role.GUID);
+                GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationDelete, GateKeeperTelemetryNames.DbCollectionUserRoles, () => _ORM.DeleteMany<UserRole>(e));
+            });
         }
 
         /// <summary>
@@ -118,8 +130,11 @@ namespace GateKeeper
         /// <returns>List.</returns>
         public List<UserRole> All()
         {
-            Expr e = new Expr(_ORM.GetColumnName<UserRole>(nameof(UserRole.Id)), OperatorEnum.GreaterThan, 0);
-            return _ORM.SelectMany<UserRole>(e);
+            return GateKeeperTelemetry.RunManagement(GateKeeperTelemetryNames.EntityUserRole, GateKeeperTelemetryNames.OperationAll, () =>
+            {
+                Expr e = new Expr(_ORM.GetColumnName<UserRole>(nameof(UserRole.Id)), OperatorEnum.GreaterThan, 0);
+                return GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationSelect, GateKeeperTelemetryNames.DbCollectionUserRoles, () => _ORM.SelectMany<UserRole>(e));
+            });
         }
 
         /// <summary>
@@ -129,9 +144,12 @@ namespace GateKeeper
         /// <returns>List.</returns>
         public List<UserRole> GetByUser(User user)
         {
-            if (user == null) throw new ArgumentNullException(nameof(user));
-            Expr e = new Expr(_ORM.GetColumnName<UserRole>(nameof(UserRole.UserGUID)), OperatorEnum.Equals, user.GUID);
-            return _ORM.SelectMany<UserRole>(e);
+            return GateKeeperTelemetry.RunManagement(GateKeeperTelemetryNames.EntityUserRole, GateKeeperTelemetryNames.OperationGetByUser, () =>
+            {
+                if (user == null) throw new ArgumentNullException(nameof(user));
+                Expr e = new Expr(_ORM.GetColumnName<UserRole>(nameof(UserRole.UserGUID)), OperatorEnum.Equals, user.GUID);
+                return GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationSelect, GateKeeperTelemetryNames.DbCollectionUserRoles, () => _ORM.SelectMany<UserRole>(e));
+            });
         }
 
         /// <summary>
@@ -141,18 +159,24 @@ namespace GateKeeper
         /// <returns>List.</returns>
         public List<UserRole> GetByRole(Role role)
         {
-            if (role == null) throw new ArgumentNullException(nameof(role));
-            Expr e = new Expr(_ORM.GetColumnName<UserRole>(nameof(UserRole.RoleGUID)), OperatorEnum.Equals, role.GUID);
-            return _ORM.SelectMany<UserRole>(e);
+            return GateKeeperTelemetry.RunManagement(GateKeeperTelemetryNames.EntityUserRole, GateKeeperTelemetryNames.OperationGetByRole, () =>
+            {
+                if (role == null) throw new ArgumentNullException(nameof(role));
+                Expr e = new Expr(_ORM.GetColumnName<UserRole>(nameof(UserRole.RoleGUID)), OperatorEnum.Equals, role.GUID);
+                return GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationSelect, GateKeeperTelemetryNames.DbCollectionUserRoles, () => _ORM.SelectMany<UserRole>(e));
+            });
         }
 
         public UserRole GetByUserRole(User user, Role role)
         {
-            if (user == null) throw new ArgumentNullException(nameof(user));
-            if (role == null) throw new ArgumentNullException(nameof(role));
-            Expr e = new Expr(_ORM.GetColumnName<UserRole>(nameof(UserRole.UserGUID)), OperatorEnum.Equals, user.GUID);
-            e.PrependAnd(_ORM.GetColumnName<UserRole>(nameof(UserRole.RoleGUID)), OperatorEnum.Equals, role.GUID);
-            return _ORM.SelectFirst<UserRole>(e);
+            return GateKeeperTelemetry.RunManagement(GateKeeperTelemetryNames.EntityUserRole, GateKeeperTelemetryNames.OperationGetByUserRole, () =>
+            {
+                if (user == null) throw new ArgumentNullException(nameof(user));
+                if (role == null) throw new ArgumentNullException(nameof(role));
+                Expr e = new Expr(_ORM.GetColumnName<UserRole>(nameof(UserRole.UserGUID)), OperatorEnum.Equals, user.GUID);
+                e.PrependAnd(_ORM.GetColumnName<UserRole>(nameof(UserRole.RoleGUID)), OperatorEnum.Equals, role.GUID);
+                return GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationSelect, GateKeeperTelemetryNames.DbCollectionUserRoles, () => _ORM.SelectFirst<UserRole>(e));
+            });
         }
 
         /// <summary>
@@ -163,11 +187,14 @@ namespace GateKeeper
         /// <returns>True if exists.</returns>
         public bool Exists(User user, Role role)
         {
-            if (user == null) throw new ArgumentNullException(nameof(user));
-            if (role == null) throw new ArgumentNullException(nameof(role));
-            Expr e = new Expr(_ORM.GetColumnName<UserRole>(nameof(UserRole.UserGUID)), OperatorEnum.Equals, user.GUID);
-            e.PrependAnd(_ORM.GetColumnName<UserRole>(nameof(UserRole.RoleGUID)), OperatorEnum.Equals, role.GUID);
-            return _ORM.Exists<UserRole>(e);
+            return GateKeeperTelemetry.RunManagement(GateKeeperTelemetryNames.EntityUserRole, GateKeeperTelemetryNames.OperationExists, () =>
+            {
+                if (user == null) throw new ArgumentNullException(nameof(user));
+                if (role == null) throw new ArgumentNullException(nameof(role));
+                Expr e = new Expr(_ORM.GetColumnName<UserRole>(nameof(UserRole.UserGUID)), OperatorEnum.Equals, user.GUID);
+                e.PrependAnd(_ORM.GetColumnName<UserRole>(nameof(UserRole.RoleGUID)), OperatorEnum.Equals, role.GUID);
+                return GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationExists, GateKeeperTelemetryNames.DbCollectionUserRoles, () => _ORM.Exists<UserRole>(e));
+            });
         }
 
         #endregion

@@ -53,12 +53,15 @@ namespace GateKeeper
         /// <returns>Object.</returns>
         public Permission Add(Permission permission)
         {
-            if (permission == null) throw new ArgumentNullException(nameof(permission));
+            return GateKeeperTelemetry.RunManagement(GateKeeperTelemetryNames.EntityPermission, GateKeeperTelemetryNames.OperationAdd, () =>
+            {
+                if (permission == null) throw new ArgumentNullException(nameof(permission));
 
-            if (ExistsByName(permission.Name))
-                throw new ArgumentException("An item with the same key has already been added.");
+                if (ExistsByName(permission.Name))
+                    throw new ArgumentException("An item with the same key has already been added.");
 
-            return _ORM.Insert<Permission>(permission);
+                return GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationInsert, GateKeeperTelemetryNames.DbCollectionPermissions, () => _ORM.Insert<Permission>(permission));
+            });
         }
 
         /// <summary>
@@ -67,12 +70,15 @@ namespace GateKeeper
         /// <param name="permission">Permission.</param>
         public void Remove(Permission permission)
         {
-            if (permission == null) throw new ArgumentNullException(nameof(permission));
+            GateKeeperTelemetry.RunManagement(GateKeeperTelemetryNames.EntityPermission, GateKeeperTelemetryNames.OperationRemove, () =>
+            {
+                if (permission == null) throw new ArgumentNullException(nameof(permission));
 
-            if (!ExistsByName(permission.Name))
-                throw new KeyNotFoundException("The specified key was not found.");
+                if (!ExistsByName(permission.Name))
+                    throw new KeyNotFoundException("The specified key was not found.");
 
-            _ORM.Delete<Permission>(permission);
+                GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationDelete, GateKeeperTelemetryNames.DbCollectionPermissions, () => _ORM.Delete<Permission>(permission));
+            });
         }
 
         /// <summary>
@@ -81,9 +87,12 @@ namespace GateKeeper
         /// <param name="resource">Resource.</param>
         public void RemoveResourcePermissions(Resource resource)
         {
-            if (resource == null) throw new ArgumentNullException(nameof(resource));
-            Expr e = new Expr(_ORM.GetColumnName<Permission>(nameof(Permission.ResourceGUID)), OperatorEnum.Equals, resource.GUID);
-            _ORM.DeleteMany<Permission>(e);
+            GateKeeperTelemetry.RunManagement(GateKeeperTelemetryNames.EntityPermission, GateKeeperTelemetryNames.OperationRemoveByResource, () =>
+            {
+                if (resource == null) throw new ArgumentNullException(nameof(resource));
+                Expr e = new Expr(_ORM.GetColumnName<Permission>(nameof(Permission.ResourceGUID)), OperatorEnum.Equals, resource.GUID);
+                GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationDelete, GateKeeperTelemetryNames.DbCollectionPermissions, () => _ORM.DeleteMany<Permission>(e));
+            });
         }
 
         /// <summary>
@@ -92,16 +101,19 @@ namespace GateKeeper
         /// <param name="name">Name.</param>
         public void RemoveByName(string name)
         {
-            if (String.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
+            GateKeeperTelemetry.RunManagement(GateKeeperTelemetryNames.EntityPermission, GateKeeperTelemetryNames.OperationRemoveByName, () =>
+            {
+                if (String.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
 
-            if (!ExistsByName(name))
-                throw new KeyNotFoundException("The specified key was not found.");
+                if (!ExistsByName(name))
+                    throw new KeyNotFoundException("The specified key was not found.");
 
-            Permission p = GetFirstByName(name);
-            if (p == null)
-                throw new KeyNotFoundException("The specified key was not found.");
+                Permission p = GetFirstByName(name);
+                if (p == null)
+                    throw new KeyNotFoundException("The specified key was not found.");
 
-            _ORM.Delete<Permission>(p);
+                GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationDelete, GateKeeperTelemetryNames.DbCollectionPermissions, () => _ORM.Delete<Permission>(p));
+            });
         }
 
         /// <summary>
@@ -110,8 +122,11 @@ namespace GateKeeper
         /// <returns>List.</returns>
         public List<Permission> All()
         {
-            Expr e = new Expr(_ORM.GetColumnName<Permission>(nameof(Permission.Id)), OperatorEnum.GreaterThan, 0);
-            return _ORM.SelectMany<Permission>(e);
+            return GateKeeperTelemetry.RunManagement(GateKeeperTelemetryNames.EntityPermission, GateKeeperTelemetryNames.OperationAll, () =>
+            {
+                Expr e = new Expr(_ORM.GetColumnName<Permission>(nameof(Permission.Id)), OperatorEnum.GreaterThan, 0);
+                return GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationSelect, GateKeeperTelemetryNames.DbCollectionPermissions, () => _ORM.SelectMany<Permission>(e));
+            });
         }
 
         /// <summary>
@@ -121,10 +136,13 @@ namespace GateKeeper
         /// <returns>Object.</returns>
         public Permission GetFirstByName(string name)
         {
-            if (String.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
-            Expr e = new Expr(_ORM.GetColumnName<Permission>(nameof(Permission.Name)), OperatorEnum.Equals, name);
-            Permission p = _ORM.SelectFirst<Permission>(e);
-            return p;
+            return GateKeeperTelemetry.RunManagement(GateKeeperTelemetryNames.EntityPermission, GateKeeperTelemetryNames.OperationGetByName, () =>
+            {
+                if (String.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
+                Expr e = new Expr(_ORM.GetColumnName<Permission>(nameof(Permission.Name)), OperatorEnum.Equals, name);
+                Permission p = GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationSelect, GateKeeperTelemetryNames.DbCollectionPermissions, () => _ORM.SelectFirst<Permission>(e));
+                return p;
+            });
         }
 
         /// <summary>
@@ -134,9 +152,12 @@ namespace GateKeeper
         /// <returns>List.</returns>
         public List<Permission> GetByResource(Resource resource)
         {
-            if (resource == null) throw new ArgumentNullException(nameof(resource));
-            Expr e = new Expr(_ORM.GetColumnName<Permission>(nameof(Permission.ResourceGUID)), OperatorEnum.Equals, resource.GUID);
-            return _ORM.SelectMany<Permission>(e);
+            return GateKeeperTelemetry.RunManagement(GateKeeperTelemetryNames.EntityPermission, GateKeeperTelemetryNames.OperationGetByResource, () =>
+            {
+                if (resource == null) throw new ArgumentNullException(nameof(resource));
+                Expr e = new Expr(_ORM.GetColumnName<Permission>(nameof(Permission.ResourceGUID)), OperatorEnum.Equals, resource.GUID);
+                return GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationSelect, GateKeeperTelemetryNames.DbCollectionPermissions, () => _ORM.SelectMany<Permission>(e));
+            });
         }
 
         /// <summary>
@@ -146,9 +167,12 @@ namespace GateKeeper
         /// <returns>True if exists.</returns>
         public bool ExistsByName(string name)
         {
-            if (String.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
-            Expr e = new Expr(_ORM.GetColumnName<Permission>(nameof(Permission.Name)), OperatorEnum.Equals, name);
-            return _ORM.Exists<Permission>(e);
+            return GateKeeperTelemetry.RunManagement(GateKeeperTelemetryNames.EntityPermission, GateKeeperTelemetryNames.OperationExistsByName, () =>
+            {
+                if (String.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
+                Expr e = new Expr(_ORM.GetColumnName<Permission>(nameof(Permission.Name)), OperatorEnum.Equals, name);
+                return GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationExists, GateKeeperTelemetryNames.DbCollectionPermissions, () => _ORM.Exists<Permission>(e));
+            });
         }
 
         #endregion

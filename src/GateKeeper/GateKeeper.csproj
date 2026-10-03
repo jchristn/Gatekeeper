@@ -2,10 +2,11 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1;net8.0;net10.0</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <Version>2.1.1</Version>
+    <Version>2.2.0</Version>
     <Authors>Joel Christner</Authors>
     <Description>Lightweight library for implementing roles-based access control (RBAC). With GateKeeper, you can define users, roles, resources, and permissions, and authorize requests.</Description>
     <Copyright>(c)2025 Joel Christner</Copyright>
@@ -13,7 +14,7 @@
     <RepositoryUrl>https://github.com/jchristn/Gatekeeper</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
     <PackageTags>rbac roles based access control authorize deny acl</PackageTags>
-    <PackageReleaseNotes>Updated dependencies and remediated a transitive SQLitePCLRaw vulnerability (GHSA-2m69-gcr7-jv3q) by pinning the SQLitePCLRaw native provider to the 3.x line.</PackageReleaseNotes>
+    <PackageReleaseNotes>Added built-in OpenTelemetry-compatible metrics and traces through the BCL Meter and ActivitySource named GateKeeper. See TELEMETRY.md.</PackageReleaseNotes>
     <ApplicationIcon>assets\icon.ico</ApplicationIcon>
     <PackageIcon>icon.png</PackageIcon>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -37,6 +38,12 @@
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.5" />
   </ItemGroup>
 
+  <!-- Meter, ActivitySource, and InstrumentAdvice (histogram bucket hints) for down-level targets.
+       net10.0 ships these in-box. -->
+  <ItemGroup Condition="'$(TargetFramework)' != 'net10.0'">
+    <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="10.0.12" />
+  </ItemGroup>
+
   <ItemGroup>
     <None Include="assets\icon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -57,6 +64,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
+    <None Include="..\..\TELEMETRY.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
 </Project>

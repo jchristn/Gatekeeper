@@ -53,12 +53,15 @@ namespace GateKeeper
         /// <returns>Object.</returns>
         public Role Add(Role role)
         {
-            if (role == null) throw new ArgumentNullException(nameof(role));
+            return GateKeeperTelemetry.RunManagement(GateKeeperTelemetryNames.EntityRole, GateKeeperTelemetryNames.OperationAdd, () =>
+            {
+                if (role == null) throw new ArgumentNullException(nameof(role));
 
-            if (ExistsByName(role.Name))
-                throw new ArgumentException("An item with the same key has already been added.");
+                if (ExistsByName(role.Name))
+                    throw new ArgumentException("An item with the same key has already been added.");
 
-            return _ORM.Insert<Role>(role);
+                return GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationInsert, GateKeeperTelemetryNames.DbCollectionRoles, () => _ORM.Insert<Role>(role));
+            });
         }
 
         /// <summary>
@@ -67,14 +70,17 @@ namespace GateKeeper
         /// <param name="role">Role.</param>
         public void Remove(Role role)
         {
-            if (role == null) throw new ArgumentNullException(nameof(role));
+            GateKeeperTelemetry.RunManagement(GateKeeperTelemetryNames.EntityRole, GateKeeperTelemetryNames.OperationRemove, () =>
+            {
+                if (role == null) throw new ArgumentNullException(nameof(role));
 
-            if (!ExistsByName(role.Name))
-                throw new KeyNotFoundException("The specified key was not found.");
+                if (!ExistsByName(role.Name))
+                    throw new KeyNotFoundException("The specified key was not found.");
 
-            UserRoles.RemoveUserRolesByRole(role);
+                UserRoles.RemoveUserRolesByRole(role);
 
-            _ORM.Delete<Role>(role);
+                GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationDelete, GateKeeperTelemetryNames.DbCollectionRoles, () => _ORM.Delete<Role>(role));
+            });
         }
 
         /// <summary>
@@ -83,18 +89,21 @@ namespace GateKeeper
         /// <param name="name">Name.</param>
         public void RemoveByName(string name)
         {
-            if (String.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
+            GateKeeperTelemetry.RunManagement(GateKeeperTelemetryNames.EntityRole, GateKeeperTelemetryNames.OperationRemoveByName, () =>
+            {
+                if (String.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
 
-            if (!ExistsByName(name))
-                throw new KeyNotFoundException("The specified key was not found.");
+                if (!ExistsByName(name))
+                    throw new KeyNotFoundException("The specified key was not found.");
 
-            Role r = GetFirstByName(name);
-            if (r == null)
-                throw new KeyNotFoundException("The specified key was not found.");
+                Role r = GetFirstByName(name);
+                if (r == null)
+                    throw new KeyNotFoundException("The specified key was not found.");
 
-            UserRoles.RemoveUserRolesByRole(r);
+                UserRoles.RemoveUserRolesByRole(r);
 
-            _ORM.Delete<Role>(r);
+                GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationDelete, GateKeeperTelemetryNames.DbCollectionRoles, () => _ORM.Delete<Role>(r));
+            });
         }
 
         /// <summary>
@@ -103,8 +112,11 @@ namespace GateKeeper
         /// <returns>List.</returns>
         public List<Role> All()
         {
-            Expr e = new Expr(_ORM.GetColumnName<Role>(nameof(Role.Id)), OperatorEnum.GreaterThan, 0);
-            return _ORM.SelectMany<Role>(e);
+            return GateKeeperTelemetry.RunManagement(GateKeeperTelemetryNames.EntityRole, GateKeeperTelemetryNames.OperationAll, () =>
+            {
+                Expr e = new Expr(_ORM.GetColumnName<Role>(nameof(Role.Id)), OperatorEnum.GreaterThan, 0);
+                return GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationSelect, GateKeeperTelemetryNames.DbCollectionRoles, () => _ORM.SelectMany<Role>(e));
+            });
         }
 
         /// <summary>
@@ -114,10 +126,13 @@ namespace GateKeeper
         /// <returns>Object.</returns>
         public Role GetFirstByName(string name)
         {
-            if (String.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
-            Expr e = new Expr(_ORM.GetColumnName<Role>(nameof(Role.Name)), OperatorEnum.Equals, name);
-            Role r = _ORM.SelectFirst<Role>(e);
-            return r;
+            return GateKeeperTelemetry.RunManagement(GateKeeperTelemetryNames.EntityRole, GateKeeperTelemetryNames.OperationGetByName, () =>
+            {
+                if (String.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
+                Expr e = new Expr(_ORM.GetColumnName<Role>(nameof(Role.Name)), OperatorEnum.Equals, name);
+                Role r = GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationSelect, GateKeeperTelemetryNames.DbCollectionRoles, () => _ORM.SelectFirst<Role>(e));
+                return r;
+            });
         }
 
         /// <summary>
@@ -127,9 +142,12 @@ namespace GateKeeper
         /// <returns>True if exists.</returns>
         public bool ExistsByName(string name)
         {
-            if (String.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
-            Expr e = new Expr(_ORM.GetColumnName<Role>(nameof(Role.Name)), OperatorEnum.Equals, name);
-            return _ORM.Exists<Role>(e);
+            return GateKeeperTelemetry.RunManagement(GateKeeperTelemetryNames.EntityRole, GateKeeperTelemetryNames.OperationExistsByName, () =>
+            {
+                if (String.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
+                Expr e = new Expr(_ORM.GetColumnName<Role>(nameof(Role.Name)), OperatorEnum.Equals, name);
+                return GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationExists, GateKeeperTelemetryNames.DbCollectionRoles, () => _ORM.Exists<Role>(e));
+            });
         }
 
         #endregion

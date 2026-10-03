@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -124,10 +125,32 @@ namespace GateKeeper
         /// <param name="dbFile">Database file.</param>
         public RbacServer(string dbFile = "gatekeeper.db")
         {
-            if (String.IsNullOrEmpty(dbFile)) throw new ArgumentNullException(nameof(dbFile));
-            _ORM = new WatsonORM(new DatabaseSettings(dbFile));
-            _ORM.InitializeDatabase();
-            _ORM.InitializeTables(_TypesToInitialize);
+            Activity activity = GateKeeperTelemetry.StartActivity(GateKeeperTelemetryNames.SpanInitialize, ActivityKind.Internal);
+            long start = GateKeeperTelemetry.Timestamp();
+
+            try
+            {
+                if (String.IsNullOrEmpty(dbFile)) throw new ArgumentNullException(nameof(dbFile));
+                _ORM = new WatsonORM(new DatabaseSettings(dbFile));
+                GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationInitialize, GateKeeperTelemetryNames.DbCollectionSchema, () =>
+                {
+                    _ORM.InitializeDatabase();
+                    _ORM.InitializeTables(_TypesToInitialize);
+                });
+
+                GateKeeperTelemetry.RecordInitialization(GateKeeperTelemetry.ElapsedSeconds(start), null);
+                GateKeeperTelemetry.MarkSuccess(activity);
+            }
+            catch (Exception ex)
+            {
+                GateKeeperTelemetry.RecordInitialization(GateKeeperTelemetry.ElapsedSeconds(start), ex);
+                GateKeeperTelemetry.MarkError(activity, ex);
+                throw;
+            }
+            finally
+            {
+                GateKeeperTelemetry.StopActivity(activity);
+            }
 
             _Permissions = new PermissionManager(_ORM);
             _Resources = new ResourceManager(_ORM);
@@ -173,35 +196,85 @@ namespace GateKeeper
         /// <returns>True if authorized.</returns>
         public bool Authorize(string username, string operation, string resource, object metadata = null)
         {
-            if (String.IsNullOrEmpty(username)) throw new ArgumentNullException(nameof(username));
-            if (String.IsNullOrEmpty(resource)) throw new ArgumentNullException(nameof(resource));
-            if (String.IsNullOrEmpty(operation)) throw new ArgumentNullException(nameof(operation));
+            Activity activity = GateKeeperTelemetry.StartActivity(GateKeeperTelemetryNames.SpanAuthorize, ActivityKind.Internal);
+            long start = GateKeeperTelemetry.Timestamp();
 
             bool authorized = false;
-            DataTable table = null;
+            string decision = GateKeeperTelemetryNames.DecisionError;
+            string basis = GateKeeperTelemetryNames.BasisNone;
             List<MatchingEntry> matchingEntries = null;
+            bool validated = false;
 
             try
             {
-                string query = AuthorizeQuery(username, operation, resource);
-                Console.WriteLine(query);
-                table = _ORM.Query(query);
-                matchingEntries = MatchingEntry.FromDataTable(table);
+                if (String.IsNullOrEmpty(username)) throw new ArgumentNullException(nameof(username));
+                if (String.IsNullOrEmpty(resource)) throw new ArgumentNullException(nameof(resource));
+                if (String.IsNullOrEmpty(operation)) throw new ArgumentNullException(nameof(operation));
+                validated = true;
 
-                if (matchingEntries != null && matchingEntries.Count > 0)
+                bool defaultPermit = DefaultPermit;
+                GateKeeperTelemetry.SetTag(activity, GateKeeperTelemetryNames.AttributeAuthorizationOperation, operation);
+                GateKeeperTelemetry.SetTag(activity, GateKeeperTelemetryNames.AttributeAuthorizationResource, resource);
+                GateKeeperTelemetry.SetTag(activity, GateKeeperTelemetryNames.AttributeDefaultPermit, defaultPermit);
+
+                string query = GateKeeperTelemetry.RunAuthorizationStage(GateKeeperTelemetryNames.StageBuildQuery, () =>
+                    AuthorizeQuery(username, operation, resource));
+
+                DataTable table = GateKeeperTelemetry.RunAuthorizationStage(GateKeeperTelemetryNames.StageQuery, () =>
+                    GateKeeperTelemetry.RunDb(GateKeeperTelemetryNames.DbOperationSelect, GateKeeperTelemetryNames.DbCollectionAuthorization, () =>
+                        _ORM.Query(query)));
+
+                matchingEntries = GateKeeperTelemetry.RunAuthorizationStage(GateKeeperTelemetryNames.StageEvaluate, () =>
                 {
-                    if (matchingEntries.Any(e => e.Allow)) authorized = true;
-                }
-                else
-                {
-                    authorized = DefaultPermit;
-                }
+                    List<MatchingEntry> entries = MatchingEntry.FromDataTable(table);
+
+                    if (entries != null && entries.Count > 0)
+                    {
+                        basis = GateKeeperTelemetryNames.BasisMatched;
+                        if (entries.Any(e => e.Allow)) authorized = true;
+                    }
+                    else
+                    {
+                        basis = GateKeeperTelemetryNames.BasisDefault;
+                        authorized = defaultPermit;
+                    }
+
+                    return entries;
+                });
+
+                decision = authorized ? GateKeeperTelemetryNames.DecisionAllow : GateKeeperTelemetryNames.DecisionDeny;
+                GateKeeperTelemetry.SetTag(activity, GateKeeperTelemetryNames.AttributeMatchedEntries, matchingEntries != null ? matchingEntries.Count : 0);
+                GateKeeperTelemetry.MarkSuccess(activity);
+            }
+            catch (Exception ex)
+            {
+                authorized = false;
+                decision = GateKeeperTelemetryNames.DecisionError;
+                basis = GateKeeperTelemetryNames.BasisNone;
+                GateKeeperTelemetry.MarkError(activity, ex);
+                GateKeeperTelemetry.RecordError(GateKeeperTelemetryNames.ComponentAuthorization, ex);
+                throw;
             }
             finally
             {
-                Task unawaited = Task.Run(() => 
-                    AuthorizationEvent?.Invoke(this, new AuthorizationEventArgs(username, resource, operation, authorized, matchingEntries, metadata))
-                );
+                GateKeeperTelemetry.SetTag(activity, GateKeeperTelemetryNames.AttributeDecision, decision);
+                GateKeeperTelemetry.SetTag(activity, GateKeeperTelemetryNames.AttributeDecisionBasis, basis);
+                GateKeeperTelemetry.RecordAuthorization(
+                    decision,
+                    basis,
+                    GateKeeperTelemetry.ElapsedSeconds(start),
+                    decision == GateKeeperTelemetryNames.DecisionError ? (int?)null : (matchingEntries != null ? matchingEntries.Count : 0));
+
+                try
+                {
+                    // Invalid arguments are rejected before any decision, so no event is raised for them.
+                    if (validated)
+                        DispatchAuthorizationEvent(new AuthorizationEventArgs(username, resource, operation, authorized, matchingEntries, metadata));
+                }
+                finally
+                {
+                    GateKeeperTelemetry.StopActivity(activity);
+                }
             }
 
             return authorized;
@@ -210,6 +283,41 @@ namespace GateKeeper
         #endregion
 
         #region Private-Methods
+
+        private void DispatchAuthorizationEvent(AuthorizationEventArgs args)
+        {
+            EventHandler<AuthorizationEventArgs> handler = AuthorizationEvent;
+            if (handler == null) return;
+
+            long queued = GateKeeperTelemetry.Timestamp();
+            GateKeeperTelemetry.EventQueued();
+
+            // Task.Run captures the ExecutionContext, so Activity.Current (the Authorize span)
+            // flows into the background hand-off and the event span joins the same trace.
+            Task unawaited = Task.Run(() =>
+            {
+                GateKeeperTelemetry.EventStarted(queued);
+                Activity activity = GateKeeperTelemetry.StartActivity(GateKeeperTelemetryNames.SpanAuthorizationEvent, ActivityKind.Internal);
+                long start = GateKeeperTelemetry.Timestamp();
+
+                try
+                {
+                    handler.Invoke(this, args);
+                    GateKeeperTelemetry.EventCompleted(GateKeeperTelemetry.ElapsedSeconds(start), null);
+                    GateKeeperTelemetry.MarkSuccess(activity);
+                }
+                catch (Exception ex)
+                {
+                    GateKeeperTelemetry.EventCompleted(GateKeeperTelemetry.ElapsedSeconds(start), ex);
+                    GateKeeperTelemetry.MarkError(activity, ex);
+                    throw;
+                }
+                finally
+                {
+                    GateKeeperTelemetry.StopActivity(activity);
+                }
+            });
+        }
 
         private string AuthorizeQuery(string username, string operation, string resource)
         {
